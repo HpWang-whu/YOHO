@@ -8,7 +8,8 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 ## Performance and efficiency
 
-<img src="figures/performance.jpg" alt="fig1" style="zoom:50%;" /><img src="figures/Time.jpg" alt="Time" style="zoom:50%;" />
+(1)<img src="figures/performance.jpg" alt="Performance" style="zoom:50%;" />
+(2)<img src="figures/Time.jpg" alt="Time" style="zoom:50%;" />
 
 ## Requirements
 
