@@ -89,7 +89,7 @@ class ThrDMatchPartDataset(EvalDataset):
         return self.pc_ids
 
     def get_pc_dir(self,cloud_id):
-        return self.pc_paths[int(cloud_id)]
+        return self.pc_ply_paths[int(cloud_id)]
 
     def get_pc(self,pc_id):
         if os.path.exists(self.pc_ply_paths[int(pc_id)]):
@@ -103,7 +103,7 @@ class ThrDMatchPartDataset(EvalDataset):
         return o3d.io.read_point_cloud(self.pc_ply_paths[int(pc_id)])
             
     def get_key_dir(self,cloud_id):
-        return self.kps_paths[int(cloud_id)]
+        return self.kps_fn[int(cloud_id)]
 
     def get_transform(self, id0, id1):
         return self.pair_id2transform['-'.join((id0,id1))]
