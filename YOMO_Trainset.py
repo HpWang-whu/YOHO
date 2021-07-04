@@ -6,7 +6,7 @@ import torch
 import random
 from tqdm import tqdm
 from utils.r_eval import compute_R_diff,quaternion_from_matrix
-from utils.dataset import get_dataset
+from utils.dataset import get_dataset_name
 from utils.utils import make_non_exists_dir,random_rotation_matrix,read_pickle,save_pickle
 from utils.misc import extract_features
 from fcgf_model import load_model
@@ -17,7 +17,7 @@ class trainset_create():
         self.dataset_name='3dmatch_train'
         self.origin_data_dir='./data/origin_data'
         self.DR_data_dir='./data/DRcache'
-        self.datasets=get_dataset(self.dataset_name,self.origin_data_dir)
+        self.datasets=get_dataset_name(self.dataset_name,self.origin_data_dir)
         self.output_dir='./data/YOMO_FCGF'
         self.Rgroup=np.load('./group_related/Rotation.npy')
 
@@ -34,10 +34,7 @@ class trainset_create():
                 if os.path.exists(f'{Save_keys_dir}/{pc_id}_index.npy'):continue
                 Keys_index=np.loadtxt(dataset.get_key_dir(pc_id)).astype(np.int)
                 Keys=dataset.get_kps(pc_id)
-                Pcas=np.load(f'{self.DR_data_dir}/{dataset.name}/pca_0.3/{pc_id}.npy')
-                Ok_index=np.arange(Pcas.shape[0])[Pcas[:,0]>0.03].astype(np.int)
-                Keys=Keys[Ok_index]
-                Keys_index=Keys_index[Ok_index]
+                Keys_index=np.arange(Keys.shape[0])
                 #Save the filtered index
                 np.save(f'{Save_keys_dir}/{pc_id}_coor.npy',Keys)
                 np.save(f'{Save_keys_dir}/{pc_id}_index.npy',Keys_index) #in pc
