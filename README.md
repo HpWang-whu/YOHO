@@ -8,11 +8,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 ## Performance and efficiency
 
-|   Performance           | Time Consuming |
-
-|:----------------------------:|:------------------:|
-
-| <img src="README.assets/sendpix1.jpg" alt="sendpix1" style="zoom:50%;" />   | ![sendpix2](README.assets/sendpix2-1625383653363.jpg) |
+<img src="figures/performance.jpg" alt="fig1" style="zoom:50%;" /><img src="figures/Time.jpg" alt="Time" style="zoom:50%;" />
 
 ## Requirements
 
@@ -31,14 +27,27 @@ Create the anaconda environment:
 ```
 conda create -n fcgf_yomo python=3.7
 conda activate fcgf_yomo
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch 
+#We have checked pytorch1.7.1 and you can get the pytorch from https://pytorch.org/get-started/previous-versions/ accordingly.
+
+#Install MinkowskiEngine, here we offer two ways followintg according to the https://github.com/NVIDIA/MinkowskiEngine.git
+
+(1) pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
+(2) #Download the MinkowskiEngine master from https://github.com/NVIDIA/MinkowskiEngine.git and place it here.
+	cd MinkowskiEngine
+	conda install openblas-devel -c anaconda
+	export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
+	python setup.py install --blas_include_dirs=${CONDA_PREFIX}/include --blas=openblas
+	cd ..
+
 pip install -r requirements.txt
-pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
 ```
 
 KNN build:
 
 ```
 cd knn_search/
+export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
 python setup.py build_ext --inplace
 cd ..
 ```
@@ -53,11 +62,22 @@ We offer the origin train dataset containing the point clouds (.ply) and keypoin
 
 We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData](https://github.com/stanfordvl/MinkowskiEngine) .
 
-Please place the data to ./data/origin_data
+Please place the data to ./data/origin_data for organizing the data structure as:
+
+- data
+  - origin_data
+    -  3dmatch
+      - sun3d-home_at-home_at_scan1_2013_jan_1
+        - Keypoints
+        - PointCloud
+    - 3dmatch_train
+      - bundlefusion-apt0
+        - 
+        - PointCloud
 
 ## Train
 
-To train YOMO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in $[0^\circ,50^\circ]$ and the backbone model is in ./model/backbone. With the TrainData downloaded above, you can create the YOMO trainset with:
+To train YOMO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in [0,50] deg and the backbone model is in ./model/backbone. With the TrainData downloaded above, you can create the YOMO trainset with:
 
 ```
 python YOMO_trainset.py
@@ -95,10 +115,10 @@ With the TestData downloaded above, the test on 3DMatch and 3DLoMatch can be don
 python YOMO_testset.py --dataset 3dmatch
 ```
 
-- Eval the results :
+- Eval the results or diectly download the group descriptor here [Descriptors]():
 
 ```
-python Test.py --Part PartI --max_iter 1000 --dataset 3dLomatch
+python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch
 ```
 
 where PartI is yomo-c and PartII is yomo-o, max_iter is the ransac times and dataset can be replaced as 3dLomatch.
