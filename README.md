@@ -34,11 +34,11 @@ conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11
 
 (1) pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
 (2) #Download the MinkowskiEngine master from https://github.com/NVIDIA/MinkowskiEngine.git and place it here.
-	cd MinkowskiEngine
-	conda install openblas-devel -c anaconda
-	export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
-	python setup.py install --blas_include_dirs=${CONDA_PREFIX}/include --blas=openblas
-	cd ..
+    cd MinkowskiEngine
+    conda install openblas-devel -c anaconda
+    export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
+    python setup.py install --blas_include_dirs=${CONDA_PREFIX}/include --blas=openblas
+    cd ..
 
 pip install -r requirements.txt
 ```
@@ -72,7 +72,7 @@ Please place the data to ./data/origin_data for organizing the data structure as
         - PointCloud
     - 3dmatch_train
       - bundlefusion-apt0
-        - 
+        - Keypoints
         - PointCloud
 
 ## Train
