@@ -1,0 +1,4 @@
+network: PartII_train
+dataset: Enhanced_train_dataset_PartII
+loss: L2_loss_partII
+lr: 0.001 and become *0.5 pre 3 epoches
