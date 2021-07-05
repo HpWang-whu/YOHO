@@ -58,9 +58,9 @@ cd ..
 
 We need the 3DMatch dataset (Train, Test) and the 3DLoMatch dataset (Test).
 
-We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://github.com/stanfordvl/MinkowskiEngine). With which, you can train the YOMO yourself.
+We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](). With which, you can train the YOMO yourself.
 
-We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData](https://github.com/stanfordvl/MinkowskiEngine) .
+We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData]() .
 
 Please place the data to ./data/origin_data for organizing the data structure as:
 
@@ -85,9 +85,9 @@ python YOMO_trainset.py
 
 Warning: the process above need 300G storage space.
 
-Or you can directly download the trainset and validation set we pre process here [YOMOtrainset](https://github.com/stanfordvl/MinkowskiEngine) and you are free to download the TrainData above.
+Or you can directly download the trainset and validation set we pre process here [YOMOtrainset]() and you are free to download the TrainData above.
 
-The training process of YOMO is two-stage, you can run with by the commands sequentially:
+The training process of YOMO is two-stage, you can run which with the commands sequentially:
 
 ```
 python Train.py --Part PartI
@@ -98,7 +98,7 @@ We also offer the pretrained models in ./model/PartI_train and ./model/PartII_tr
 
 ## Demo
 
-With the pretrained models, you can try YOMO by:
+With the pretrained models, you can try the YOMO by:
 
 ```
 python YOMO_testset.py --dataset demo
@@ -115,7 +115,7 @@ With the TestData downloaded above, the test on 3DMatch and 3DLoMatch can be don
 python YOMO_testset.py --dataset 3dmatch
 ```
 
-- Eval the results or diectly download the group descriptor here [Descriptors]():
+- Eval the results or diectly download the group descriptors here [Descriptors]():
 
 ```
 python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch
