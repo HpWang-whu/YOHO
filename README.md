@@ -58,7 +58,7 @@ cd ..
 
 We need the 3DMatch dataset (Train, Test) and the 3DLoMatch dataset (Test).
 
-We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://github.com/stanfordvl/MinkowskiEngine). With which, you can train YOMO yourself.
+We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://github.com/stanfordvl/MinkowskiEngine). With which, you can train the YOMO yourself.
 
 We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData](https://github.com/stanfordvl/MinkowskiEngine) .
 
@@ -83,7 +83,7 @@ To train YOMO yourself, you need to prepare the origin trainset with the backbon
 python YOMO_trainset.py
 ```
 
-Warining: the process above need 300G storage space.
+Warning: the process above need 300G storage space.
 
 Or you can directly download the trainset and validation set we pre process here [YOMOtrainset](https://github.com/stanfordvl/MinkowskiEngine) and you are free to download the TrainData above.
 
