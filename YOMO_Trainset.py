@@ -110,7 +110,7 @@ class trainset_create():
                 Random_Rs=[]
                 Feats=[]
 
-                PC=np.loadtxt(dataset.get_pc_dir(pc_id),delimiter=',')
+                PC=dataset.get_pc(pc_id)
                 Key_idx=np.load(f'{self.output_dir}/Filtered_Keys/{dataset.name}/{pc_id}_index.npy')
                 
                 for R_i in range(5):
@@ -288,7 +288,7 @@ if __name__=="__main__":
     parser.add_argument(
         '-m',
         '--model',
-        default='./pretrained/best_val_checkpoint.pth',
+        default='./model/Backbone/best_val_checkpoint.pth',
         type=str,
         help='path to latest checkpoint (default: None)')
     parser.add_argument(
