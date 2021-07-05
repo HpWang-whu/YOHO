@@ -16,7 +16,6 @@ class trainset_create():
     def __init__(self):
         self.dataset_name='3dmatch_train'
         self.origin_data_dir='./data/origin_data'
-        self.DR_data_dir='./data/DRcache'
         self.datasets=get_dataset_name(self.dataset_name,self.origin_data_dir)
         self.output_dir='./data/YOMO_FCGF'
         self.Rgroup=np.load('./group_related/Rotation.npy')
@@ -34,7 +33,10 @@ class trainset_create():
                 if os.path.exists(f'{Save_keys_dir}/{pc_id}_index.npy'):continue
                 Keys_index=np.loadtxt(dataset.get_key_dir(pc_id)).astype(np.int)
                 Keys=dataset.get_kps(pc_id)
-                Keys_index=np.arange(Keys.shape[0])
+                Pcas=np.load(f'{dataset.root}/pca_0.3/{pc_id}.npy')
+                Ok_index=np.arange(Pcas.shape[0])[Pcas[:,0]>0.03].astype(np.int)
+                Keys=Keys[Ok_index]
+                Keys_index=Keys_index[Ok_index]
                 #Save the filtered index
                 np.save(f'{Save_keys_dir}/{pc_id}_coor.npy',Keys)
                 np.save(f'{Save_keys_dir}/{pc_id}_index.npy',Keys_index) #in pc
