@@ -62,7 +62,7 @@ We offer the origin train dataset containing the point clouds (.ply) and keypoin
 
 We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData]() .
 
-Please place the data to ./data/origin_data for organizing the data structure as:
+Please place the data to ```./data/origin_data``` for organizing the data structure as:
 
 - data
   - origin_data
@@ -77,7 +77,7 @@ Please place the data to ./data/origin_data for organizing the data structure as
 
 ## Train
 
-To train YOMO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in [0,50] deg and the backbone model is in ./model/backbone. With the TrainData downloaded above, you can create the YOMO trainset with:
+To train YOMO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in [0,50] deg and the backbone model is in ```./model/backbone```. With the TrainData downloaded above, you can create the YOMO trainset with:
 
 ```
 python YOMO_trainset.py
@@ -94,7 +94,7 @@ python Train.py --Part PartI
 python Train.py --Part PartII
 ```
 
-We also offer the pretrained models in ./model/PartI_train and ./model/PartII_train.
+We also offer the pretrained models in ```./model/PartI_train``` and ```./model/PartII_train```.
 
 ## Demo
 
