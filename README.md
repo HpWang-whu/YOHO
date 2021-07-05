@@ -32,8 +32,8 @@ conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11
 #We have checked pytorch1.7.1 and you can get the pytorch from https://pytorch.org/get-started/previous-versions/ accordingly.
 
 #Install MinkowskiEngine, here we offer two ways according to the https://github.com/NVIDIA/MinkowskiEngine.git
-(1) pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
-(2) #Download the MinkowskiEngine master from https://github.com/NVIDIA/MinkowskiEngine.git and place it here.
+(1) remove MinkowskiEngine here and pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
+(2) #Or use the MinkowskiEngine folder here.
     cd MinkowskiEngine
     conda install openblas-devel -c anaconda
     export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
