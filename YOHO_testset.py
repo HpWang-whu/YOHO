@@ -56,7 +56,7 @@ class testset_create():
     def __init__(self,config):
         self.config=config
         self.dataset_name=self.config.dataset
-        self.output_dir='./data/YOMO_FCGF'
+        self.output_dir='./data/YOHO_FCGF'
         self.origin_dir='./data/origin_data'
         self.datasets=get_dataset_name(self.dataset_name,self.origin_dir)
         self.Rgroup=np.load('./group_related/Rotation.npy')

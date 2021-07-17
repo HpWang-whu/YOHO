@@ -24,7 +24,7 @@ Dirs.add_argument('--base_dir',type=str,default=base_dir,
                         help="base dir containing the whole project")
 Dirs.add_argument("--origin_data_dir",type=str,default=f"{base_dir}/data/origin_data",
                         help="the dir containing whole datas")
-Dirs.add_argument("--output_cache_fn",type=str,default=f"{base_dir}/data/YOMO_FCGF",
+Dirs.add_argument("--output_cache_fn",type=str,default=f"{base_dir}/data/YOHO_FCGF",
                         help="eval cache dir")
 Dirs.add_argument("--model_fn",type=str,default=f"./model",
                         help='well trained model path')
@@ -38,7 +38,7 @@ Dataset_Args.add_argument("--trainset_name",type=str,default="3dmatch_train",
                         help="train dataset name")
 Dataset_Args.add_argument("--trainset_type",type=str,default="Enhanced_train_dataset_PartII",
                         help="train dataset type")
-Dataset_Args.add_argument("--train_pcpair_list_fn",type=str,default=f'{base_dir}/data/YOMO_FCGF/Train_val_list/train.pkl',
+Dataset_Args.add_argument("--train_pcpair_list_fn",type=str,default=f'{base_dir}/data/YOHO_FCGF/Train_val_list/train.pkl',
                         help="Training tuples (station,pc0,pc1,pt0,pt1)")
 Network_Args.add_argument("--train_network_type",type=str,default="PartII_train",
                         help="network type for train")
@@ -68,7 +68,7 @@ Train_Args.add_argument("--train_log_step",type=int,default=500,
                         help="logger internal")
 
 #Validation Args
-Dataset_Args.add_argument("--val_pppair_list_fn",type=str,default=f'{base_dir}/data/YOMO_FCGF/Train_val_list/val_pc_pt.pkl',
+Dataset_Args.add_argument("--val_pppair_list_fn",type=str,default=f'{base_dir}/data/YOHO_FCGF/Train_val_list/val_pc_pt.pkl',
                         help="validation tuples (station,pc0,pc1,R_i,R_j,pt0,pt1)")
 Val_Args.add_argument("--val_interval",type=int,default=500,
                         help="the interval to validation")
@@ -77,13 +77,13 @@ Val_Args.add_argument("--save_interval",type=int,default=500,
 
 ############################################# Test ###################################################
 Pipeline=add_argument_group('Pipeline')
-Pipeline.add_argument('--descriptor',type=str,default='YOMO',
+Pipeline.add_argument('--descriptor',type=str,default='YOHO',
                         help="name of extractor")
 Pipeline.add_argument('--extractor',type=str,default='PartII',
                         help="name of extractor")
 Pipeline.add_argument('--matcher',type=str,default='Match',
                         help="name of matcher")
-Pipeline.add_argument('--estimator',type=str,default='yomoo',
+Pipeline.add_argument('--estimator',type=str,default='yohoo',
                         help="name of estimator")
 Pipeline.add_argument('--evaluator',type=str,default='PartII',
                         help="name of evaluator")
@@ -100,7 +100,7 @@ Test_Args.add_argument('--new_metric_success_dist',type=float,default=0.07,
 Test_Args.add_argument("--pca_threshold",type=float,default=0.03,
                         help="the plane points threshold")
 Test_Args.add_argument("--ransac_o_inlinerdist",type=float,default=0.1,
-                        help="inliner distance threshold distance for YOMO-o")
+                        help="inliner distance threshold distance for YOHO-o")
 Test_Args.add_argument("--TR_rerror",type=float,default=3,
                         help="The R error to determain the true transformation")
 Test_Args.add_argument("--TR_terror",type=float,default=0.1,

@@ -130,18 +130,18 @@ class PartI_train(nn.Module):
         feats0=torch.squeeze(data['feats0']) # bn,32,60
         feats1=torch.squeeze(data['feats1']) # bn,32,60
         true_idxs=torch.squeeze(data['true_idx']) # bn
-        yomo_0=self.PartI_net(feats0)
-        yomo_1=self.PartI_net(feats1)
-        pre_idxs=self.Des2DR(yomo_0['eqv'],yomo_1['eqv'])
+        yoho_0=self.PartI_net(feats0)
+        yoho_1=self.PartI_net(feats1)
+        pre_idxs=self.Des2DR(yoho_0['eqv'],yoho_1['eqv'])
         #pre_idxs=self.Des2DR(feats0,feats1)
         part1_ability=torch.mean((pre_idxs==true_idxs).type(torch.float32))
 
         return {'feats0_eqv_bf_conv':feats0,
                 'feats1_eqv_bf_conv':feats1,
-                'feats0_eqv_af_conv':yomo_0['eqv'],
-                'feats1_eqv_af_conv':yomo_1['eqv'],
-                'feats0_inv':yomo_0['inv'],
-                'feats1_inv':yomo_1['inv'],
+                'feats0_eqv_af_conv':yoho_0['eqv'],
+                'feats1_eqv_af_conv':yoho_1['eqv'],
+                'feats0_inv':yoho_0['inv'],
+                'feats1_inv':yoho_1['inv'],
                 'DR_pre_ability':part1_ability, # no use for partI
                 'DR_true_index':true_idxs,
                 'DR_pre_index':pre_idxs}        # no use for partI

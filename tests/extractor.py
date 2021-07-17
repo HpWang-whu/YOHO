@@ -37,11 +37,11 @@ class extractor_PartI():
         self._load_model()
         self.network.eval()
         FCGF_input_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/FCGF_Input_Group_feature'
-        YOMO_output_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/YOMO_Output_Group_feature'
-        make_non_exists_dir(YOMO_output_dir)
+        YOHO_output_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/YOHO_Output_Group_feature'
+        make_non_exists_dir(YOHO_output_dir)
         print(f'Extracting the PartI descriptors on {dataset.name}')
         for pc_id in tqdm(dataset.pc_ids):
-            if os.path.exists(f'{YOMO_output_dir}/{pc_id}.npy'):continue
+            if os.path.exists(f'{YOHO_output_dir}/{pc_id}.npy'):continue
             Input_feature=np.load(f'{FCGF_input_dir}/{pc_id}.npy') #5000*32*60
             output_feature=[]
             bi=0
@@ -54,7 +54,7 @@ class extractor_PartI():
                 output_feature.append(batch_output['eqv'].cpu().numpy())
                 bi+=1
             output_feature=np.concatenate(output_feature,axis=0)
-            np.save(f'{YOMO_output_dir}/{pc_id}.npy',output_feature) #5000*32*60
+            np.save(f'{YOHO_output_dir}/{pc_id}.npy',output_feature) #5000*32*60
 
 
 
@@ -82,7 +82,7 @@ class extractor_dr_index():
             datasetname=f'3d{dataset.name[4:]}'
         else:
             datasetname=dataset.name
-        Feature_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOMO_Output_Group_feature'
+        Feature_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOHO_Output_Group_feature'
         
         print(f'extract the drindex of the matches on {dataset.name}')
         for pair in tqdm(dataset.pair_ids):
@@ -119,18 +119,18 @@ class extractor_PartII():
             raise ValueError("No model exists")
     
 
-    def batch_create(self,feats0_fcgf,feats1_fcgf,feats0_yomo,feats1_yomo,index_pre,start,end):
+    def batch_create(self,feats0_fcgf,feats1_fcgf,feats0_yoho,feats1_yoho,index_pre,start,end):
         #attention: here feats0->feats1_in_batch for it is afterrot
         feats0_fcgf=torch.from_numpy(feats0_fcgf[start:end,:,:].astype(np.float32))
         feats1_fcgf=torch.from_numpy(feats1_fcgf[start:end,:,:].astype(np.float32))
-        feats0_yomo=torch.from_numpy(feats0_yomo[start:end,:,:].astype(np.float32))
-        feats1_yomo=torch.from_numpy(feats1_yomo[start:end,:,:].astype(np.float32))
+        feats0_yoho=torch.from_numpy(feats0_yoho[start:end,:,:].astype(np.float32))
+        feats1_yoho=torch.from_numpy(feats1_yoho[start:end,:,:].astype(np.float32))
         index_pre=torch.from_numpy(index_pre[start:end].astype(np.int))
         return {
                 'before_eqv0':feats1_fcgf,#exchanged
                 'before_eqv1':feats0_fcgf,
-                'after_eqv0':feats1_yomo,
-                'after_eqv1':feats0_yomo,
+                'after_eqv0':feats1_yoho,
+                'after_eqv1':feats0_yoho,
                 'pre_idx':index_pre
         }
 
@@ -151,7 +151,7 @@ class extractor_PartII():
             datasetname=dataset.name
         Keys_dir=f'{self.cfg.origin_data_dir}/{datasetname}/Keypoints_PC'
         FCGF_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/FCGF_Input_Group_feature'
-        YOMO_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOMO_Output_Group_feature'
+        YOHO_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOHO_Output_Group_feature'
 
         #feat1:beforrot feat0:afterrot
         print(f'extracting the PartII feature on {dataset.name}')       
@@ -162,8 +162,8 @@ class extractor_PartII():
             pps=np.load(f'{match_dir}/{id0}-{id1}.npy')
             feats0_fcgf=np.load(f'{FCGF_dir}/{id0}.npy')[pps[:,0],:,:] #pps*32*60
             feats1_fcgf=np.load(f'{FCGF_dir}/{id1}.npy')[pps[:,1],:,:] #pps*32*60
-            feats0_yomo=np.load(f'{YOMO_dir}/{id0}.npy')[pps[:,0],:,:] #pps*32*60
-            feats1_yomo=np.load(f'{YOMO_dir}/{id1}.npy')[pps[:,1],:,:] #pps*32*60
+            feats0_yoho=np.load(f'{YOHO_dir}/{id0}.npy')[pps[:,0],:,:] #pps*32*60
+            feats1_yoho=np.load(f'{YOHO_dir}/{id1}.npy')[pps[:,1],:,:] #pps*32*60
             Index_pre=np.load(f'{DRindex_dir}/{id0}-{id1}.npy')        #pps
 
             Keys0=dataset.get_kps(id0)[pps[:,0],:]  #pps*3
@@ -174,7 +174,7 @@ class extractor_PartII():
             while(bi*self.cfg.test_batch_size<feats0_fcgf.shape[0]):
                 start=bi*self.cfg.test_batch_size
                 end=(bi+1)*self.cfg.test_batch_size
-                batch=self.batch_create(feats0_fcgf,feats1_fcgf,feats0_yomo,feats1_yomo,Index_pre,start,end)
+                batch=self.batch_create(feats0_fcgf,feats1_fcgf,feats0_yoho,feats1_yoho,Index_pre,start,end)
                 batch=to_cuda(batch)
                 with torch.no_grad():
                     batch_output=self.network(batch)

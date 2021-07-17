@@ -26,7 +26,7 @@ class Evaluator_PartI:
         self.drindex_extractor=extractor_dr_index(self.cfg)
         est=self.cfg.estimator
         if self.max_iter>500:
-            est='yomoc_mul'
+            est='yohoc_mul'
         self.estimator=name2estimator[est](self.cfg)
 
     def run_onescene(self,dataset):
@@ -80,7 +80,7 @@ class Evaluator_PartI:
 
         #RR
         datasetname=datasets['wholesetname']
-        Mean_Registration_Recall,c_flags,c_errors=RR_cal.benchmark(self.cfg,datasets,self.max_iter,yomo_sign='YOMO_C')
+        Mean_Registration_Recall,c_flags,c_errors=RR_cal.benchmark(self.cfg,datasets,self.max_iter,yoho_sign='YOHO_C')
 
         #print and save:
         msg=f'{datasetname}-{self.cfg.descriptor}-{self.cfg.extractor}-{self.cfg.matcher}-{self.cfg.estimator}-{self.max_iter}iterations\n'
@@ -157,7 +157,7 @@ class Evaluator_PartII:
 
         #RR
         datasetname=datasets['wholesetname']
-        Mean_Registration_Recall,c_flags,c_errors=RR_cal.benchmark(self.cfg,datasets,self.max_iter,yomo_sign='YOMO_O')
+        Mean_Registration_Recall,c_flags,c_errors=RR_cal.benchmark(self.cfg,datasets,self.max_iter,yoho_sign='YOHO_O')
         #print and save:
         msg=f'{datasetname}-{self.cfg.descriptor}-{self.cfg.extractor}-{self.cfg.matcher}-{self.cfg.estimator}-{self.max_iter}iterations\n'
         msg+=f'correct ratio avg {np.mean(all_pair_fmrs):.5f}\n' \

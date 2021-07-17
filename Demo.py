@@ -49,31 +49,31 @@ for name,dataset in datasets.items():
     extractor_II=name2extractor[config_o.extractor](config_o)
     extractor_II.PartII_R_pre(dataset)
 
-    #YOMO-C
+    #YOHO-C
     estimator_c=name2estimator[config_c.estimator](config_c)
     estimator_c.ransac(dataset,max_iter=1000,TR_max_iter=1000)
 
-    #YOMO-O
+    #YOHO-O
     estimator_o=name2estimator[config_o.estimator](config_o)
     estimator_o.ransac(dataset,max_iter=1000,TR_max_iter=1000)
 
-    yomoc_result=np.load(f'{match_dir}/YOMO_C/1000iters/0-1.npz')
-    yomoo_result=np.load(f'{match_dir}/YOMO_O/1000iters/0-1.npz')
-    yomoc_trans=np.concatenate([yomoc_result['trans'],np.array([[0,0,0,1]])],axis=0)
-    yomoo_trans=np.concatenate([yomoo_result['trans'],np.array([[0,0,0,1]])],axis=0)
+    yohoc_result=np.load(f'{match_dir}/YOHO_C/1000iters/0-1.npz')
+    yohoo_result=np.load(f'{match_dir}/YOHO_O/1000iters/0-1.npz')
+    yohoc_trans=np.concatenate([yohoc_result['trans'],np.array([[0,0,0,1]])],axis=0)
+    yohoo_trans=np.concatenate([yohoo_result['trans'],np.array([[0,0,0,1]])],axis=0)
     
-    yomoc_iters=np.load(f'{match_dir}/YOMO_C_TR/1000iters/0-1.npz')['recalltime']
-    yomoo_iters=np.load(f'{match_dir}/YOMO_O_TR/1000iters/0-1.npz')['recalltime']
+    yohoc_iters=np.load(f'{match_dir}/YOHO_C_TR/1000iters/0-1.npz')['recalltime']
+    yohoo_iters=np.load(f'{match_dir}/YOHO_O_TR/1000iters/0-1.npz')['recalltime']
 
     #visual
     target=dataset.get_pc_o3d('0')
     source=dataset.get_pc_o3d('1')
     draw_registration_result(source,target,np.eye(4))
 
-    #yomoc
-    print(f'YOMO-C get the true (Rerror<{config_c.TR_rerror}, terror<{config_c.TR_terror}) result with ',yomoc_iters,' iterations.')
-    draw_registration_result(source,target,yomoc_trans)
+    #yohoc
+    print(f'YOHO-C get the true (Rerror<{config_c.TR_rerror}, terror<{config_c.TR_terror}) result with ',yohoc_iters,' iterations.')
+    draw_registration_result(source,target,yohoc_trans)
 
-    #yomoo
-    print(f'YOMO-O get the true (Rerror<{config_o.TR_rerror}, terror<{config_o.TR_terror}) result with ',yomoo_iters,' iterations.')
-    draw_registration_result(source,target,yomoo_trans)
+    #yohoo
+    print(f'YOHO-O get the true (Rerror<{config_o.TR_rerror}, terror<{config_o.TR_terror}) result with ',yohoo_iters,' iterations.')
+    draw_registration_result(source,target,yohoo_trans)

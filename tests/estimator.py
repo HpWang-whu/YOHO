@@ -25,7 +25,7 @@ def R_pre_log(dataset,save_dir):
 
 
 
-class yomoc:
+class yohoc:
     def __init__(self,cfg):
         self.cfg=cfg
         self.inliner_dist=cfg.ransac_c_inlinerdist
@@ -47,6 +47,8 @@ class yomoc:
                 num=float(len(R_index_pre_statistic[i]))/100.0
                 R_index_pre_probability.append(num*(num-0.01)*(num-0.02))
         R_index_pre_probability=np.array(R_index_pre_probability)
+        if np.sum(R_index_pre_probability)<1e-4:
+            return None,None
         R_index_pre_probability=R_index_pre_probability/np.sum(R_index_pre_probability)
         return R_index_pre_statistic,R_index_pre_probability
 
@@ -78,8 +80,8 @@ class yomoc:
     def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
-        Save_dir=f'{match_dir}/YOMO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOMO_C_TR/{TR_max_iter}iters'
+        Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
+        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
         make_non_exists_dir(Save_dir_TR)
 
@@ -89,7 +91,7 @@ class yomoc:
             datasetname=dataset.name
         Keys_dir=f'{self.cfg.origin_data_dir}/{datasetname}/Keypoints_PC'
 
-        print(f'Ransac with YOMO-C on {dataset.name}:')
+        print(f'Ransac with YOHO-C on {dataset.name}:')
         for pair in tqdm(dataset.pair_ids):
             id0,id1=pair
             #if os.path.exists(f'{Save_dir}/{id0}-{id1}.npz'):continue
@@ -105,71 +107,71 @@ class yomoc:
             Index=np.load(f'{Index_dir}/{id0}-{id1}.npy')
             #DR_statistic
             R_index_pre_statistic,R_index_pre_probability=self.DR_statictic(Index)
+  
+            if R_index_pre_probability is None:
+                np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=np.eye(4), center=0,axis=0,recalltime=50001)
+                np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=np.eye(4), center=0,recalltime=50001)
+            else:
+                #RANSAC
+                iter_ransac=0
+                recall_time=0
+                best_overlap=0
+                best_trans_ransac=0
+                best_3p_in_0=np.ones([3,3])
+                best_3p_in_1=np.ones([3,3])
+                max_time=50000
+                exec_time=0
+                while iter_ransac<max_iter:
+                    if exec_time>max_time:break
+                    exec_time+=1
+                    R_index=np.random.choice(range(60),p=R_index_pre_probability)
+                    if (len(R_index_pre_statistic[R_index])<2):
+                        continue
+                    iter_ransac+=1
+                    idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
+                    kps0_init=Keys_m0[idxs_init]
+                    kps1_init=Keys_m1[idxs_init]
+                    #if not ok:continue
+                    trans=self.Threepps2Tran(kps0_init,kps1_init)
+                    overlap=self.overlap_cal(Keys_m0,Keys_m1,trans)
+                    if overlap>best_overlap:
+                        best_overlap=overlap
+                        best_trans_ransac=trans
+                        best_3p_in_0=kps0_init
+                        best_3p_in_1=kps1_init
+                        recall_time=iter_ransac
+                #save:
+                np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
 
-            #RANSAC
-            iter_ransac=0
-            recall_time=0
-            best_overlap=0
-            best_trans_ransac=0
-            best_3p_in_0=np.ones([3,3])
-            best_3p_in_1=np.ones([3,3])
-            max_time=50000
-            exec_time=0
-            while iter_ransac<max_iter:
-                if exec_time>max_time:break
-                exec_time+=1
-                R_index=np.random.choice(range(60),p=R_index_pre_probability)
-                if (len(R_index_pre_statistic[R_index])<2):
-                    continue
-                iter_ransac+=1
-                idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-                kps0_init=Keys_m0[idxs_init]
-                kps1_init=Keys_m1[idxs_init]
-                #if not ok:continue
-                trans=self.Threepps2Tran(kps0_init,kps1_init)
-                overlap=self.overlap_cal(Keys_m0,Keys_m1,trans)
-                if overlap>best_overlap:
-                    best_overlap=overlap
-                    best_trans_ransac=trans
-                    best_3p_in_0=kps0_init
-                    best_3p_in_1=kps1_init
-                    recall_time=iter_ransac
-            #save:
-            np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
-
-            #RANSAC TR
-            #if os.path.exists(f'{Save_dir_TR}/{id0}-{id1}.npz'):continue
-            iter_ransac_TR=0
-            recall_time_TR=0
-            best_trans_ransac_TR=0
-            best_3p_in_0_TR=np.ones([3,3])
-            best_3p_in_1_TR=np.ones([3,3])
-            while iter_ransac_TR<max_iter:
-                R_index=np.random.choice(range(60),p=R_index_pre_probability)
-                if (len(R_index_pre_statistic[R_index])<2):
-                    continue
-                iter_ransac_TR+=1
-                idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-                kps0_init=Keys_m0[idxs_init]
-                kps1_init=Keys_m1[idxs_init]
-                trans=self.Threepps2Tran(kps0_init,kps1_init)
-                Rdiff,tdiff=self.transdiff(gt,trans)
-                if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
-                    best_trans_ransac_TR=trans
-                    best_3p_in_0_TR=kps0_init
-                    best_3p_in_1_TR=kps1_init
-                    recall_time_TR=iter_ransac_TR
-                    break
-            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
-        
-
-
-
+                #RANSAC TR
+                #if os.path.exists(f'{Save_dir_TR}/{id0}-{id1}.npz'):continue
+                iter_ransac_TR=0
+                recall_time_TR=0
+                best_trans_ransac_TR=0
+                best_3p_in_0_TR=np.ones([3,3])
+                best_3p_in_1_TR=np.ones([3,3])
+                while iter_ransac_TR<max_iter:
+                    R_index=np.random.choice(range(60),p=R_index_pre_probability)
+                    if (len(R_index_pre_statistic[R_index])<2):
+                        continue
+                    iter_ransac_TR+=1
+                    idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
+                    kps0_init=Keys_m0[idxs_init]
+                    kps1_init=Keys_m1[idxs_init]
+                    trans=self.Threepps2Tran(kps0_init,kps1_init)
+                    Rdiff,tdiff=self.transdiff(gt,trans)
+                    if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
+                        best_trans_ransac_TR=trans
+                        best_3p_in_0_TR=kps0_init
+                        best_3p_in_1_TR=kps1_init
+                        recall_time_TR=iter_ransac_TR
+                        break
+                np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
         R_pre_log(dataset,Save_dir)
 
 
 
-class yomoc_mul:
+class yohoc_mul:
     def __init__(self,cfg):
         self.cfg=cfg
         self.inliner_dist=cfg.ransac_c_inlinerdist
@@ -191,6 +193,8 @@ class yomoc_mul:
                 num=float(len(R_index_pre_statistic[i]))/100.0
                 R_index_pre_probability.append(num*(num-0.01)*(num-0.02))
         R_index_pre_probability=np.array(R_index_pre_probability)
+        if np.sum(R_index_pre_probability)<1e-4:
+            return None,None
         R_index_pre_probability=R_index_pre_probability/np.sum(R_index_pre_probability)
         return R_index_pre_statistic,R_index_pre_probability
 
@@ -222,8 +226,8 @@ class yomoc_mul:
     def ransac_once(self,dataset,max_iter,TR_max_iter,pair):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
-        Save_dir=f'{match_dir}/YOMO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOMO_C_TR/{TR_max_iter}iters'
+        Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
+        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
 
         if dataset.name[0:4]=='3dLo':
             datasetname=f'3d{dataset.name[4:]}'
@@ -245,67 +249,71 @@ class yomoc_mul:
         Index=np.load(f'{Index_dir}/{id0}-{id1}.npy')
         #DR_statistic
         R_index_pre_statistic,R_index_pre_probability=self.DR_statictic(Index)
+  
+        if R_index_pre_probability is None:
+            np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=np.eye(4), center=0,axis=0,recalltime=50001)
+            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=np.eye(4), center=0,recalltime=50001)
+        else:
+            #RANSAC
+            iter_ransac=0
+            recall_time=0
+            best_overlap=0
+            best_trans_ransac=0
+            best_3p_in_0=np.ones([3,3])
+            best_3p_in_1=np.ones([3,3])
+            max_time=50000
+            exec_time=0
+            while iter_ransac<max_iter:
+                if exec_time>max_time:break
+                exec_time+=1
+                R_index=np.random.choice(range(60),p=R_index_pre_probability)
+                if (len(R_index_pre_statistic[R_index])<2):
+                    continue
+                iter_ransac+=1
+                idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
+                kps0_init=Keys_m0[idxs_init]
+                kps1_init=Keys_m1[idxs_init]
+                trans=self.Threepps2Tran(kps0_init,kps1_init)
+                overlap=self.overlap_cal(Keys_m0,Keys_m1,trans)
+                if overlap>best_overlap:
+                    best_overlap=overlap
+                    best_trans_ransac=trans
+                    best_3p_in_0=kps0_init
+                    best_3p_in_1=kps1_init
+                    recall_time=iter_ransac
+            np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
 
-        #RANSAC
-        iter_ransac=0
-        recall_time=0
-        best_overlap=0
-        best_trans_ransac=0
-        best_3p_in_0=np.ones([3,3])
-        best_3p_in_1=np.ones([3,3])
-        max_time=50000
-        exec_time=0
-        while iter_ransac<max_iter:
-            if exec_time>max_time:break
-            exec_time+=1
-            R_index=np.random.choice(range(60),p=R_index_pre_probability)
-            if (len(R_index_pre_statistic[R_index])<2):
-                continue
-            iter_ransac+=1
-            idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-            kps0_init=Keys_m0[idxs_init]
-            kps1_init=Keys_m1[idxs_init]
-            trans=self.Threepps2Tran(kps0_init,kps1_init)
-            overlap=self.overlap_cal(Keys_m0,Keys_m1,trans)
-            if overlap>best_overlap:
-                best_overlap=overlap
-                best_trans_ransac=trans
-                best_3p_in_0=kps0_init
-                best_3p_in_1=kps1_init
-                recall_time=iter_ransac
-        np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
-
-        #RANSAC TR
-        iter_ransac_TR=0
-        recall_time_TR=100000
-        best_trans_ransac_TR=0
-        best_3p_in_0_TR=np.ones([3,3])
-        best_3p_in_1_TR=np.ones([3,3])
-        while iter_ransac_TR<max_iter:
-            R_index=np.random.choice(range(60),p=R_index_pre_probability)
-            if (len(R_index_pre_statistic[R_index])<2):
-                continue
-            iter_ransac_TR+=1
-            idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-            kps0_init=Keys_m0[idxs_init]
-            kps1_init=Keys_m1[idxs_init]
-            trans=self.Threepps2Tran(kps0_init,kps1_init)
-            Rdiff,tdiff=self.transdiff(gt,trans)
-            if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
-                best_trans_ransac_TR=trans
-                best_3p_in_0_TR=kps0_init
-                best_3p_in_1_TR=kps1_init
-                recall_time_TR=iter_ransac_TR
-                break
-        np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
+            #RANSAC TR
+            iter_ransac_TR=0
+            recall_time_TR=100000
+            best_trans_ransac_TR=0
+            best_3p_in_0_TR=np.ones([3,3])
+            best_3p_in_1_TR=np.ones([3,3])
+            while iter_ransac_TR<max_iter:
+                R_index=np.random.choice(range(60),p=R_index_pre_probability)
+                if (len(R_index_pre_statistic[R_index])<2):
+                    continue
+                iter_ransac_TR+=1
+                idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
+                kps0_init=Keys_m0[idxs_init]
+                kps1_init=Keys_m1[idxs_init]
+                trans=self.Threepps2Tran(kps0_init,kps1_init)
+                Rdiff,tdiff=self.transdiff(gt,trans)
+                if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
+                    best_trans_ransac_TR=trans
+                    best_3p_in_0_TR=kps0_init
+                    best_3p_in_1_TR=kps1_init
+                    recall_time_TR=iter_ransac_TR
+                    break
+            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
 
 
 
     def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
-        Save_dir=f'{match_dir}/YOMO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOMO_C_TR/{TR_max_iter}iters'
+        Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
+        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
         make_non_exists_dir(Save_dir_TR)
 
@@ -315,7 +323,7 @@ class yomoc_mul:
             datasetname=dataset.name
         Keys_dir=f'{self.cfg.origin_data_dir}/{datasetname}/Keypoints_PC'
 
-        print(f'Ransac with YOMO-C on {dataset.name}:')
+        print(f'Ransac with YOHO-C on {dataset.name}:')
         pair_ids=dataset.pair_ids
         pool = Pool(len(pair_ids))
         func = partial(self.ransac_once,dataset,max_iter,TR_max_iter)
@@ -327,7 +335,7 @@ class yomoc_mul:
             
 
 
-class yomoo:
+class yohoo:
     def __init__(self,cfg):
         self.cfg=cfg
         self.inliner_dist=cfg.ransac_o_inlinerdist
@@ -351,12 +359,12 @@ class yomoo:
     def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Trans_dir=f'{match_dir}/Trans_pre'
-        Save_dir=f'{match_dir}/YOMO_O/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOMO_O_TR/{TR_max_iter}iters'
+        Save_dir=f'{match_dir}/YOHO_O/{max_iter}iters'
+        Save_dir_TR=f'{match_dir}/YOHO_O_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
         make_non_exists_dir(Save_dir_TR)
 
-        print(f'Ransac with YOMO-O on {dataset.name}:')
+        print(f'Ransac with YOHO-O on {dataset.name}:')
         for pair in tqdm(dataset.pair_ids):
             id0,id1=pair
             gt=dataset.get_transform(id0,id1)
@@ -411,7 +419,7 @@ class yomoo:
 
 
 name2estimator={
-    'yomoc':yomoc,
-    'yomoc_mul':yomoc_mul,
-    'yomoo': yomoo
+    'yohoc':yohoc,
+    'yohoc_mul':yohoc_mul,
+    'yohoo': yohoo
 }

@@ -1,10 +1,10 @@
 # You Only Match Once: Point Cloud Registration with Rotation-equivariant Descriptors
 
-In this paper, we propose a novel local descriptor-based framework, called You Only Match Once (YOMO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOMO also has a rotation-equivariant part, which enables us to estimate the registration from just one correspondence.  Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOMO. Extensive experiments show that YOMO achieves superior performances with much fewer needed RANSAC iterations on three widely-used datasets, the 3DMatch/3DLoMatch datasets and the ETH dataset. 
+In this paper, we propose a novel local descriptor-based framework, called You Only Match Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation-equivariant part, which enables us to estimate the registration from just one correspondence.  Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on three widely-used datasets, the 3DMatch/3DLoMatch datasets and the ETH dataset. 
 
 ## News
 
-- 2021.7.6 The code of the FCGF backbone YOMO is released.
+- 2021.7.6 The code of the FCGF backbone YOHO is released.
 
 ## Performance and efficiency
 
@@ -13,7 +13,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 ## Requirements
 
-Here we offer the FCGF backbone YOMO, so the FCGF requirements need to be met:
+Here we offer the FCGF backbone YOHO, so the FCGF requirements need to be met:
 
 - Ubuntu 14.04 or higher
 - CUDA 11.1 or higher
@@ -26,14 +26,14 @@ Here we offer the FCGF backbone YOMO, so the FCGF requirements need to be met:
 Create the anaconda environment:
 
 ```
-conda create -n fcgf_yomo python=3.7
-conda activate fcgf_yomo
+conda create -n fcgf_yoho python=3.7
+conda activate fcgf_yoho
 conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch 
 #We have checked pytorch1.7.1 and you can get the pytorch from https://pytorch.org/get-started/previous-versions/ accordingly.
 
 #Install MinkowskiEngine, here we offer two ways according to the https://github.com/NVIDIA/MinkowskiEngine.git
 (1) pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
-(2) #Download the MinkowskiEngine master from https://github.com/NVIDIA/MinkowskiEngine.git and place it here.
+(2) #Or use the version we offer.
     cd MinkowskiEngine
     conda install openblas-devel -c anaconda
     export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
@@ -58,7 +58,7 @@ cd ..
 
 We need the 3DMatch dataset (Train, Test) and the 3DLoMatch dataset (Test).
 
-We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://drive.google.com/file/d/1mfnGL8pRvc6Rw6m6YnvNKdbpGxGJ081G/view?usp=sharing). With which, you can train the YOMO yourself.
+We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://drive.google.com/file/d/1mfnGL8pRvc6Rw6m6YnvNKdbpGxGJ081G/view?usp=sharing). With which, you can train the YOHO yourself.
 
 We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData](https://drive.google.com/file/d/1kqUmrlu2rg74TAp7HJt1WPWG0daRIAzw/view?usp=sharing) .
 
@@ -77,15 +77,15 @@ Please place the data to ```./data/origin_data``` for organizing the data struct
 
 ## Train
 
-To train YOMO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in [0,50] deg and the backbone model is in ```./model/backbone```. With the TrainData downloaded above, you can create the YOMO trainset with:
+To train YOHO yourself, you need to prepare the origin trainset with the backbone FCGF. We have retrained the FCGF with the rotation argument in [0,50] deg and the backbone model is in ```./model/backbone```. With the TrainData downloaded above, you can create the YOHO trainset with:
 
 ```
-python YOMO_trainset.py
+python YOHO_trainset.py
 ```
 
 Warning: the process above need 300G storage space.
 
-The training process of YOMO is two-stage, you can run which with the commands sequentially:
+The training process of YOHO is two-stage, you can run which with the commands sequentially:
 
 ```
 python Train.py --Part PartI
@@ -96,10 +96,10 @@ We also offer the pretrained models in ```./model/PartI_train``` and ```./model/
 
 ## Demo
 
-With the pretrained models, you can try the YOMO by:
+With the pretrained models, you can try the YOHO by:
 
 ```
-python YOMO_testset.py --dataset demo
+python YOHO_testset.py --dataset demo
 python Demo.py
 ```
 
@@ -110,7 +110,7 @@ With the TestData downloaded above, the test on 3DMatch and 3DLoMatch can be don
 - Prepare testset
 
 ```
-python YOMO_testset.py --dataset 3dmatch
+python YOHO_testset.py --dataset 3dmatch
 ```
 
 - Eval the results:
@@ -119,7 +119,7 @@ python YOMO_testset.py --dataset 3dmatch
 python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch
 ```
 
-where PartI is yomo-c and PartII is yomo-o, max_iter is the ransac times and dataset can be replaced as 3dLomatch.
+where PartI is yoho-c and PartII is yoho-o, max_iter is the ransac times and dataset can be replaced as 3dLomatch, all the results will be placed to ```./data/YOHO_FCGF```.
 
 
 

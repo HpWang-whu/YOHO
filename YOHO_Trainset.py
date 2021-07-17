@@ -17,7 +17,7 @@ class trainset_create():
         self.dataset_name='3dmatch_train'
         self.origin_data_dir='./data/origin_data'
         self.datasets=get_dataset_name(self.dataset_name,self.origin_data_dir)
-        self.output_dir='./data/YOMO_FCGF'
+        self.output_dir='./data/YOHO_FCGF'
         self.Rgroup=np.load('./group_related/Rotation.npy')
 
     def PCA_keys_sample(self):

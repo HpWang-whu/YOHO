@@ -307,7 +307,7 @@ def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_i
 
 
 
-def benchmark(cfg,datasets,max_iter,yomo_sign='YOMO_O'):
+def benchmark(cfg,datasets,max_iter,yoho_sign='YOHO_O'):
     c_flags={}
     c_errors={}
     re_per_scene = defaultdict(list)
@@ -315,14 +315,14 @@ def benchmark(cfg,datasets,max_iter,yomo_sign='YOMO_O'):
     re_all, te_all, precision, recall = [], [], [], []
     n_valids= []
     wholesetname=datasets['wholesetname']
-    result_dir=f'{cfg.output_cache_fn}/Testset/{wholesetname}/Eval_results/{yomo_sign}_RR/{max_iter}iters'
+    result_dir=f'{cfg.output_cache_fn}/Testset/{wholesetname}/Eval_results/{yoho_sign}_RR/{max_iter}iters'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
     f=open(f'{result_dir}/result.txt','w')
     f.write(("Scene\t prec.\t rec.\t re\t te\t samples\t\n"))
     for scene,dataset in datasets.items():
         if scene=='wholesetname':continue
-        pre_dir=f'{cfg.output_cache_fn}/Testset/{dataset.name}/Match/{yomo_sign}/{max_iter}iters'
+        pre_dir=f'{cfg.output_cache_fn}/Testset/{dataset.name}/Match/{yoho_sign}/{max_iter}iters'
         gt_dir_loc=str.rfind(dataset.gt_dir,'.')
         gt_dir=dataset.gt_dir[0:gt_dir_loc]
         gt_pairs, gt_traj = read_trajectory(f'{gt_dir}.log')

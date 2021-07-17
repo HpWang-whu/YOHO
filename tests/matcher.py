@@ -21,7 +21,7 @@ class matcher_dual():
             datasetname=f'3d{dataset.name[4:]}'
         else:
             datasetname=dataset.name
-        Feature_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOMO_Output_Group_feature'
+        Feature_dir=f'{self.cfg.output_cache_fn}/Testset/{datasetname}/YOHO_Output_Group_feature'
         alltime=0
         for pair in tqdm.tqdm(dataset.pair_ids):
             id0,id1=pair
