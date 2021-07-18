@@ -116,7 +116,7 @@ class yohoc:
                 iter_ransac=0
                 recall_time=0
                 best_overlap=0
-                best_trans_ransac=0
+                best_trans_ransac=np.eye(4)
                 best_3p_in_0=np.ones([3,3])
                 best_3p_in_1=np.ones([3,3])
                 max_time=50000
@@ -147,7 +147,7 @@ class yohoc:
                 #if os.path.exists(f'{Save_dir_TR}/{id0}-{id1}.npz'):continue
                 iter_ransac_TR=0
                 recall_time_TR=0
-                best_trans_ransac_TR=0
+                best_trans_ransac_TR=np.eye(4)
                 best_3p_in_0_TR=np.ones([3,3])
                 best_3p_in_1_TR=np.ones([3,3])
                 while iter_ransac_TR<max_iter:
@@ -258,7 +258,7 @@ class yohoc_mul:
             iter_ransac=0
             recall_time=0
             best_overlap=0
-            best_trans_ransac=0
+            best_trans_ransac=np.eye(4)
             best_3p_in_0=np.ones([3,3])
             best_3p_in_1=np.ones([3,3])
             max_time=50000
@@ -286,7 +286,7 @@ class yohoc_mul:
             #RANSAC TR
             iter_ransac_TR=0
             recall_time_TR=100000
-            best_trans_ransac_TR=0
+            best_trans_ransac_TR=np.eye(4)
             best_3p_in_0_TR=np.ones([3,3])
             best_3p_in_1_TR=np.ones([3,3])
             while iter_ransac_TR<max_iter:
@@ -392,7 +392,7 @@ class yohoo:
             #RANSAC
             recall_time=0
             best_overlap=0
-            best_trans_ransac=0
+            best_trans_ransac=np.eye(4)
             for t_id in range(Trans_ransac.shape[0]):
                 T=Trans_ransac[t_id]
                 overlap=self.overlap_cal(Keys_m0,Keys_m1,T)
@@ -405,7 +405,7 @@ class yohoo:
 
             #RANSAC TR
             recall_time_TR=1000000
-            best_trans_ransac_TR=0
+            best_trans_ransac_TR=np.eye(4)
             for t_id_TR in range(Trans_TR.shape[0]):
                 T=Trans_TR[t_id_TR]
                 Rdiff,tdiff=self.transdiff(gt,T)
