@@ -146,7 +146,7 @@ class yohoc:
                 #RANSAC TR
                 #if os.path.exists(f'{Save_dir_TR}/{id0}-{id1}.npz'):continue
                 iter_ransac_TR=0
-                recall_time_TR=0
+                recall_time_TR=100000
                 best_trans_ransac_TR=np.eye(4)
                 best_3p_in_0_TR=np.ones([3,3])
                 best_3p_in_1_TR=np.ones([3,3])
@@ -404,7 +404,7 @@ class yohoo:
             np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, recalltime=recall_time)
 
             #RANSAC TR
-            recall_time_TR=1000000
+            recall_time_TR=100000
             best_trans_ransac_TR=np.eye(4)
             for t_id_TR in range(Trans_TR.shape[0]):
                 T=Trans_TR[t_id_TR]
