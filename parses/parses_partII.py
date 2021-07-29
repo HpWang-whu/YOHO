@@ -95,11 +95,11 @@ Network_Args.add_argument("--test_network_type",type=str,default="PartII_test",
                         help="network type for test")
 Test_Args.add_argument("--test_batch_size",type=int,default=1000,
                         help="TEST batch size")
-Test_Args.add_argument('--new_metric_success_dist',type=float,default=0.07,
+Test_Args.add_argument('--new_metric_success_dist',type=float,default=0.1,
                         help="new_metric_success_dist")
 Test_Args.add_argument("--pca_threshold",type=float,default=0.03,
                         help="the plane points threshold")
-Test_Args.add_argument("--ransac_o_inlinerdist",type=float,default=0.1,
+Test_Args.add_argument("--ransac_o_inlinerdist",type=float,default=0.09,
                         help="inliner distance threshold distance for YOHO-o")
 Test_Args.add_argument("--TR_rerror",type=float,default=3,
                         help="The R error to determain the true transformation")

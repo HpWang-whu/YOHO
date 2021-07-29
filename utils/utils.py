@@ -227,7 +227,7 @@ def evaluate_the_match(kps0,kps1,matches,transform_gt,threshold=0.1):
     kpsm1=kps1[matches[:,1]]
     kpsm1_t=transform_points(kpsm1,transform_gt)
     dist=np.linalg.norm(kpsm0-kpsm1_t,2,1)
-    correct_ratio=np.mean(dist<threshold)#正确比例
+    correct_ratio=np.mean(dist<threshold)
     return correct_ratio
 
 
@@ -236,7 +236,7 @@ def Threepps2Tran(kps0_init,kps1_init):
     center1=np.mean(kps1_init,0,keepdims=True)
     m = (kps1_init-center1).T @ (kps0_init-center0)
     U,S,VT = np.linalg.svd(m)
-    rotation = VT.T @ U.T   #预测的RT
+    rotation = VT.T @ U.T
     offset = center0 - (center1 @ rotation.T)
     transform=np.concatenate([rotation,offset.T],1)
     return transform #3*4

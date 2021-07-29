@@ -184,7 +184,7 @@ if __name__=="__main__":
         '--model',
         default='./model/Backbone/best_val_checkpoint.pth',
         type=str,
-        help='path to latest checkpoint (default: None)')
+        help='path to backbone latest checkpoint (default: None)')
     parser.add_argument(
         '--voxel_size',
         default=0.025,

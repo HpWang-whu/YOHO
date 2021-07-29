@@ -98,7 +98,7 @@ class PartI_network(nn.Module):
         feats_eqv=feats_eqv+feats
         feats_inv=torch.mean(feats_eqv,dim=-1)# bn,f
 
-        #before conv for partII 需不需要归一化
+        #before conv for partII
         feats_eqv=feats_eqv/torch.clamp_min(torch.norm(feats_eqv,dim=1,keepdim=True),min=1e-4)
         feats_inv=feats_inv/torch.clamp_min(torch.norm(feats_inv,dim=1,keepdim=True),min=1e-4)
 
@@ -217,7 +217,7 @@ class PartII_train(nn.Module):
         feats_inv=feats_eqv.unsqueeze(-1)
         feats_inv=self.PartII_To_R_FC(feats_inv)#bn 4 1 1
         quaternion_pre=feats_inv[:,:,0,0]
-        #quaternion_pre=quaternion_pre/torch.norm(quaternion_pre,dim=1)[:,None]  #这里去除了归一化
+        #quaternion_pre=quaternion_pre/torch.norm(quaternion_pre,dim=1)[:,None]
         
         return {'quaternion_pre':quaternion_pre,
                 'part1_ability':part1_ability,

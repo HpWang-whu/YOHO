@@ -59,7 +59,7 @@ class yohoc:
         center1=np.mean(kps1_init,0,keepdims=True)
         m = (kps1_init-center1).T @ (kps0_init-center0)
         U,S,VT = np.linalg.svd(m)
-        rotation = VT.T @ U.T   #预测的RT
+        rotation = VT.T @ U.T   #predicted RT
         offset = center0 - (center1 @ rotation.T)
         transform=np.concatenate([rotation,offset.T],1)
         return transform #3*4
@@ -205,7 +205,7 @@ class yohoc_mul:
         center1=np.mean(kps1_init,0,keepdims=True)
         m = (kps1_init-center1).T @ (kps0_init-center0)
         U,S,VT = np.linalg.svd(m)
-        rotation = VT.T @ U.T   #预测的RT
+        rotation = VT.T @ U.T   #predicted RT
         offset = center0 - (center1 @ rotation.T)
         transform=np.concatenate([rotation,offset.T],1)
         return transform #3*4

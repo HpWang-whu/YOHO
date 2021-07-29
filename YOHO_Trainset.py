@@ -104,7 +104,7 @@ class trainset_create():
         for key,dataset in tqdm(self.datasets.items()):
             if key=="wholesetname":continue
             for pc_id in tqdm(dataset.pc_ids):
-                Feats_save_dir=f'{self.output_dir}/Rotated_Features_self_train/{dataset.name}'
+                Feats_save_dir=f'{self.output_dir}/Rotated_Features/{dataset.name}'
                 make_non_exists_dir(Feats_save_dir)
                 if os.path.exists(f'{Feats_save_dir}/{pc_id}_feats.npz'):continue
                 Random_Rs=[]

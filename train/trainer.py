@@ -15,7 +15,7 @@ import utils.network as network
 import train.loss_val as loss_val
 
 
-#基于configuration的执行
+#based on configuration
 class Trainer_partI:
     def __init__(self,cfg):
         self.cfg=cfg

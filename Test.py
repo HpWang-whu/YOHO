@@ -20,16 +20,25 @@ parser.add_argument(
     default='3dmatch',
     type=str,
     help='dataset name')
+parser.add_argument(
+    '--ransac_d',
+    default=-1,
+    type=float,
+    help='inliner threshold of ransac')
 args = parser.parse_args()
 
 sign=args.Part
 if sign=='PartI':
     config,nouse=parses_partI.get_config()
+    if args.ransac_d>0:
+        config.ransac_c_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
     eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter,TR_max_iter=1000)
     eval_net.eval()
 elif sign=='PartII':
     config,nouse=parses_partII.get_config()
+    if args.ransac_d>0:
+        config.ransac_o_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
     eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter,TR_max_iter=1000)
     eval_net.eval()

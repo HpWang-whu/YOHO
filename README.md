@@ -74,6 +74,10 @@ Please place the data to ```./data/origin_data``` for organizing the data struct
       - bundlefusion-apt0
         - Keypoints
         - PointCloud
+    - ETH
+      - wood_autumn
+        - Keypoints
+        - PointCloud
 
 ## Train
 
@@ -103,7 +107,7 @@ python YOHO_testset.py --dataset demo
 python Demo.py
 ```
 
-## Test
+## Test on the 3DMatch and 3DLoMatch
 
 With the TestData downloaded above, the test on 3DMatch and 3DLoMatch can be done by:
 
@@ -116,16 +120,36 @@ python YOHO_testset.py --dataset 3dmatch
 - Eval the results:
 
 ```
-python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch
+python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch  #YOHO-C on 3DMatch
+python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch  #YOHO-O on 3DLoMatch
+python Test.py --Part PartII --max_iter 1000 --dataset 3dLomatch  #YOHO-C on 3DMatch
+python Test.py --Part PartII --max_iter 1000 --dataset 3dLomatch  #YOHO-O on 3DLoMatch
 ```
 
-where PartI is yoho-c and PartII is yoho-o, max_iter is the ransac times and dataset can be replaced as 3dLomatch, all the results will be placed to ```./data/YOHO_FCGF```.
+where PartI is yoho-c and PartII is yoho-o, max_iter is the ransac times, PartI should be run first. All the results will be placed to ```./data/YOHO_FCGF```.
 
 
+## Generalize to the ETH dataset
+
+With the TestData downloaded above, without any refinement of the model trained on the indoor 3DMatch dataset,  the generalization result on the outdoor ETH dataset can be got by:
+
+- Prepare testset
+
+```
+python YOHO_testset.py --dataset ETH --voxel_size 0.15
+```
+
+- Eval the results:
+
+```
+python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-C on ETH
+python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-O on ETH
+```
+Similarly, all the results will be placed to ```./data/YOHO_FCGF```.
 
 ## Related Projects
 
-We thanks greatly for the FCGF, PerfectMatch and Predator for the backbone and datasets.
+We thanks greatly for the FCGF, PerfectMatch and Predator for the backbone and the datasets.
 
 - [FCGF](https://github.com/chrischoy/FCGF)
 - [3DSmoothNet](https://github.com/zgojcic/3DSmoothNet) 
