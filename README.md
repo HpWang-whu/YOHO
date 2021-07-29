@@ -120,9 +120,9 @@ python YOHO_testset.py --dataset 3dmatch
 - Eval the results:
 
 ```
-python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch  #YOHO-C on 3DMatch
-python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch  #YOHO-O on 3DLoMatch
-python Test.py --Part PartII --max_iter 1000 --dataset 3dLomatch  #YOHO-C on 3DMatch
+python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch    #YOHO-C on 3DMatch
+python Test.py --Part PartI  --max_iter 1000 --dataset 3dLomatch  #YOHO-C on 3DLoMatch
+python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch    #YOHO-O on 3DMatch
 python Test.py --Part PartII --max_iter 1000 --dataset 3dLomatch  #YOHO-O on 3DLoMatch
 ```
 
@@ -142,7 +142,7 @@ python YOHO_testset.py --dataset ETH --voxel_size 0.15
 - Eval the results:
 
 ```
-python Test.py --Part PartI --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-C on ETH
+python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-C on ETH
 python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-O on ETH
 ```
 Similarly, all the results will be placed to ```./data/YOHO_FCGF```.
