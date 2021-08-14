@@ -142,8 +142,8 @@ python YOHO_testset.py --dataset ETH --voxel_size 0.15
 - Eval the results:
 
 ```
-python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-C on ETH
-python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 #YOHO-O on ETH
+python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-C on ETH
+python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-O on ETH
 ```
 Similarly, all the results will be placed to ```./data/YOHO_FCGF```.
 

@@ -72,7 +72,7 @@ class Evaluator_PartI:
             if scene=='wholesetname':continue
             self.run_onescene(dataset)
             print(f'eval the FMR result on {dataset.name}')
-            FMR,pair_fmrs=self.Feature_match_Recall(dataset,ratio=0.05)
+            FMR,pair_fmrs=self.Feature_match_Recall(dataset,ratio=self.cfg.fmr_ratio)
             FMRS.append(FMR)
             all_pair_fmrs.append(pair_fmrs)
         FMRS=np.array(FMRS)
@@ -148,7 +148,7 @@ class Evaluator_PartII:
             if scene=='wholesetname':continue
             self.run_onescene(dataset)
             print(f'eval the FMR result on {dataset.name}')
-            FMR,pair_fmrs=self.Feature_match_Recall(dataset,ratio=0.05)
+            FMR,pair_fmrs=self.Feature_match_Recall(dataset,ratio=self.cfg.fmr_ratio)
             FMRS.append(FMR)
             all_pair_fmrs.append(pair_fmrs)
         FMRS=np.array(FMRS)

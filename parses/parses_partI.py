@@ -75,7 +75,7 @@ Val_Args.add_argument("--save_interval",type=int,default=500,
 ############################################# Test ###################################################
 Pipeline=add_argument_group('Pipeline')
 Pipeline.add_argument('--descriptor',type=str,default='YOHO',
-                        help="name of extractor")
+                        help="name of descriptor")
 Pipeline.add_argument('--extractor',type=str,default='PartI',
                         help="name of extractor")
 Pipeline.add_argument('--matcher',type=str,default='Match',
@@ -86,7 +86,7 @@ Pipeline.add_argument('--evaluator',type=str,default='PartI',
                         help="name of evaluator")
 
 
-Dataset_Args.add_argument("--testset_name",type=str,default='3dLomatch_rot',
+Dataset_Args.add_argument("--testset_name",type=str,default='3dmatch',
                         help="eval dataset name")
 Network_Args.add_argument("--test_network_type",type=str,default="PartI_test",
                         help="network type for test")
@@ -94,14 +94,12 @@ Test_Args.add_argument("--test_batch_size",type=int,default=900,
                         help="TEST batch size")
 Test_Args.add_argument("--ransac_c_inlinerdist",type=float,default=0.07,
                         help="inliner distance threshold distance for YOHO-c")
-Test_Args.add_argument("--TR_rerror",type=float,default=3,
-                        help="The R error to determain the true transformation")
-Test_Args.add_argument("--TR_terror",type=float,default=0.1,
-                        help="The t error to determain the true transformation") 
+Test_Args.add_argument("--fmr_ratio",type=float,default=0.05,
+                        help="tau 1 for FMR") 
 Test_Args.add_argument("--ok_match_dist_threshold",type=float,default=0.1,
-                        help="The t error to determain the true transformation")
+                        help="tau 2 for FMR")
 Test_Args.add_argument("--RR_dist_threshold",type=float,default=0.2,
-                        help="The t error to determain the true transformation") 
+                        help="tau 3 for RR") 
 
 
 

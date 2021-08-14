@@ -25,11 +25,30 @@ parser.add_argument(
     default=-1,
     type=float,
     help='inliner threshold of ransac')
+parser.add_argument(
+    '--tau_1',
+    default=0.05,
+    type=float,
+    help='tau 1 for FMR')
+parser.add_argument(
+    '--tau_2',
+    default=0.1,
+    type=float,
+    help='tau 2 for FMR')
+parser.add_argument(
+    '--tau_3',
+    default=0.2,
+    type=float,
+    help='tau 3 for RR')
+
 args = parser.parse_args()
 
 sign=args.Part
 if sign=='PartI':
     config,nouse=parses_partI.get_config()
+    config.fmr_ratio=args.tau_1
+    config.ok_match_dist_threshold=args.tau_2
+    config.RR_dist_threshold=args.tau_3
     if args.ransac_d>0:
         config.ransac_c_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
@@ -37,6 +56,9 @@ if sign=='PartI':
     eval_net.eval()
 elif sign=='PartII':
     config,nouse=parses_partII.get_config()
+    config.fmr_ratio=args.tau_1
+    config.ok_match_dist_threshold=args.tau_2
+    config.RR_dist_threshold=args.tau_3
     if args.ransac_d>0:
         config.ransac_o_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
