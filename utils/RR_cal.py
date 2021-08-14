@@ -16,7 +16,8 @@ def rotation_error(R1, R2):
     """
     Torch batch implementation of the rotation error between the estimated and the ground truth rotatiom matrix. 
     Rotation error is defined as r_e = \arccos(\frac{Trace(\mathbf{R}_{ij}^{T}\mathbf{R}_{ij}^{\mathrm{GT}) - 1}{2})
-
+    
+    
     Args: 
         R1 (torch tensor): Estimated rotation matrices [b,3,3]
         R2 (torch tensor): Ground truth rotation matrices [b,3,3]
