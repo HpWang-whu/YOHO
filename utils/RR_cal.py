@@ -9,7 +9,6 @@ import numpy as np
 import os,sys,glob,torch,math
 from collections import defaultdict
 import nibabel.quaternions as nq
-from utils.utils import transform_points
 
 
 def rotation_error(R1, R2):
