@@ -60,7 +60,7 @@ We need the 3DMatch dataset (Train, Test) and the 3DLoMatch dataset (Test).
 
 We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://drive.google.com/file/d/1mfnGL8pRvc6Rw6m6YnvNKdbpGxGJ081G/view?usp=sharing). With which, you can train the YOHO yourself.
 
-We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData](https://drive.google.com/file/d/1yyXueb9QmbYQAdxydRYShbcKPyCSsNgo/view?usp=sharing).
+We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData_in_out](https://drive.google.com/file/d/1ziWtDq45j1XI1WOXPYJUdDsOK9xJn_tD/view?usp=sharing).
 
 Please place the data to ```./data/origin_data``` for organizing the data structure as:
 
