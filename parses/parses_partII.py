@@ -109,6 +109,14 @@ Test_Args.add_argument("--RR_dist_threshold",type=float,default=0.2,
                         help="tau 3 for RR") 
 
 
+#Input
+Test_Args.add_argument('--Part',default='PartI',type=str,help='Input PartI or PartII')
+Test_Args.add_argument('--max_iter',default=1000,type=int,help='Input ransac iterations')
+Test_Args.add_argument('--dataset',default='3dmatch',type=str,help='Input dataset name')
+Test_Args.add_argument('--ransac_d',default=-1,type=float,help='Input inliner threshold of ransac')
+Test_Args.add_argument('--tau_1',default=0.05,type=float,help='Input tau 1 for FMR')
+Test_Args.add_argument('--tau_2',default=0.1,type=float,help='Input tau 2 for FMR')
+Test_Args.add_argument('--tau_3',default=0.2,type=float,help='Input tau 3 for RR')
 
 
 def get_config():

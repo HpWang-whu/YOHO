@@ -104,20 +104,11 @@ class PartI_network(nn.Module):
 
         return {'inv':feats_inv,'eqv':feats_eqv}
 
-class Transition_net(nn.Module):
-    def __init__(self, cfg):
-        super().__init__()
-        self.cfg=cfg
-        self.PartI_net=PartI_network(self.cfg)
-    
-    def forward(self,feats):
-        return self.PartI_net(feats)  
-
 class PartI_train(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.cfg=cfg
-        self.PartI_net=Transition_net(self.cfg)
+        self.PartI_net=PartI_network(self.cfg)
         self.R_index_permu=torch.from_numpy(np.load(f'{self.cfg.SO3_related_files}/60_60.npy').astype(np.int)).cuda() 
         
     
@@ -150,7 +141,7 @@ class PartI_test(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.cfg=cfg
-        self.PartI_net=Transition_net(self.cfg)
+        self.PartI_net=PartI_network(self.cfg)
 
     def forward(self,group_feat):
         return self.PartI_net(group_feat)

@@ -159,7 +159,10 @@ class Trainer_partII:
     def _init_network(self):
         self.network=network.name2network[self.cfg.train_network_type](self.cfg).cuda()
         pretrained_partI_model=torch.load(self.cfg.PartI_pretrained_model_fn)['network_state_dict']
-        self.network.load_state_dict(pretrained_partI_model,strict=False)
+        pretrained_partI_model_for_partII={}
+        for key,val in pretrained_partI_model.items():
+            pretrained_partI_model_for_partII[f'PartI_net.{key}']=val
+        self.network.load_state_dict(pretrained_partI_model_for_partII,strict=False)
         self.optimizer = Adam(filter(lambda p: p.requires_grad, self.network.parameters()), lr=self.cfg.lr_init)
         self.loss=loss_val.name2loss[self.cfg.loss_type](self.cfg)
         self.val_evaluator=loss_val.name2val[self.cfg.val_type](self.cfg)
