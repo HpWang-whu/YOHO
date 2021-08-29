@@ -67,9 +67,9 @@ Please place the data to ```./data/origin_data``` for organizing the data struct
 - data
   - origin_data
     -  3dmatch
-      - sun3d-home_at-home_at_scan1_2013_jan_1
-          - Keypoints
-          - PointCloud
+          - sun3d-home_at-home_at_scan1_2013_jan_1
+              - Keypoints
+              - PointCloud
     - 3dmatch_train
       - bundlefusion-apt0
         - Keypoints
