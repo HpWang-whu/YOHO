@@ -60,22 +60,26 @@ We need the 3DMatch dataset (Train, Test) and the 3DLoMatch dataset (Test).
 
 We offer the origin train dataset containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TrainData](https://drive.google.com/file/d/1mfnGL8pRvc6Rw6m6YnvNKdbpGxGJ081G/view?usp=sharing). With which, you can train the YOHO yourself.
 
-We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [TestData_in_out](https://drive.google.com/file/d/1ziWtDq45j1XI1WOXPYJUdDsOK9xJn_tD/view?usp=sharing).
+We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [3dmatch/3dLomatch](https://drive.google.com/file/d/1UzGBPce5VspD2YIj7zWrrJYjsImSEc-5/view?usp=sharing), [ETH](https://drive.google.com/file/d/1hyurp5EOzvWGFB0kOl5Qylx1xGelpxaQ/view?usp=sharing) and [WHU-TLS](https://drive.google.com/file/d/1QjlxIVMQPinNWt5LKhtaG9TTo2j3TGs_/view?usp=sharing).
 
 Please place the data to ```./data/origin_data``` for organizing the data structure as:
 
 - data
   - origin_data
     -  3dmatch
-        - sun3d-home_at-home_at_scan1_2013_jan_1
-            - Keypoints
-            - PointCloud
+      - sun3d-home_at-home_at_scan1_2013_jan_1
+          - Keypoints
+          - PointCloud
     - 3dmatch_train
       - bundlefusion-apt0
         - Keypoints
         - PointCloud
     - ETH
       - wood_autumn
+        - Keypoints
+        - PointCloud
+    - WHU-TLS
+      - Park
         - Keypoints
         - PointCloud
 
@@ -100,7 +104,7 @@ We also offer the pretrained models in ```./model/PartI_train``` and ```./model/
 
 ## Demo
 
-With the pretrained models, you can try the YOHO by:
+With the pretrained models, you can try YOHO by:
 
 ```
 python YOHO_testset.py --dataset demo
@@ -111,7 +115,7 @@ python Demo.py
 
 With the TestData downloaded above, the test on 3DMatch and 3DLoMatch can be done by:
 
-- Prepare testset
+- Prepare the testset
 
 ```
 python YOHO_testset.py --dataset 3dmatch
@@ -133,7 +137,7 @@ where PartI is yoho-c and PartII is yoho-o, max_iter is the ransac times, PartI 
 
 With the TestData downloaded above, without any refinement of the model trained on the indoor 3DMatch dataset,  the generalization result on the outdoor ETH dataset can be got by:
 
-- Prepare testset
+- Prepare the testset
 
 ```
 python YOHO_testset.py --dataset ETH --voxel_size 0.15
@@ -142,10 +146,30 @@ python YOHO_testset.py --dataset ETH --voxel_size 0.15
 - Eval the results:
 
 ```
-python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-C on ETH
-python Test.py --Part PartII --max_iter 1000 --dataset 3dmatch --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-O on ETH
+python Test.py --Part PartI  --max_iter 1000 --dataset ETH --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-C on ETH
+python Test.py --Part PartII --max_iter 1000 --dataset ETH --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-O on ETH
 ```
-Similarly, all the results will be placed to ```./data/YOHO_FCGF```.
+All the results will be placed to ```./data/YOHO_FCGF```.
+
+
+## Generalize to the WHU-TLS dataset
+
+With the TestData downloaded above, without any refinement of the model trained on the indoor 3DMatch dataset,  the generalization result on the outdoor TLS dataset WHU-TLS can be got by:
+
+- Prepare the testset
+
+```
+python YOHO_testset.py --dataset WHU-TLS --voxel_size 0.8
+```
+
+- Eval the results:
+
+```
+python Test.py --Part PartI  --max_iter 1000 --dataset WHU-TLS --ransac_d 5 --tau_2 3 --tau_3 5 #YOHO-C on WHU-TLS
+python Test.py --Part PartII --max_iter 1000 --dataset WHU-TLS --ransac_d 5 --tau_2 3 --tau_3 5 #YOHO-O on WHU-TLS
+```
+All the results will be placed to ```./data/YOHO_FCGF```.
+
 
 ## Related Projects
 

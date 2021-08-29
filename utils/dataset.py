@@ -180,6 +180,18 @@ def get_dataset_name(dataset_name,origin_data_dir):
         return datasets
 
 
+    if dataset_name=='WHU-TLS':
+        datasets={}
+        datasets['wholesetname']=f'{dataset_name}'
+        scenes=['Park','Mountain','Campus','RiverBank','UndergroundExcavation','Tunnel']
+        stationnums=[32,6,10,7,12,7]
+        for i in range(len(scenes)):
+            root_dir=f'{origin_data_dir}/{dataset_name}/'+scenes[i]
+            datasets[scenes[i]]=ThrDMatchPartDataset(root_dir,stationnums[i])
+            datasets[scenes[i]].name=f'{dataset_name}/{scenes[i]}'
+        return datasets
+
+
     if dataset_name=='3dmatch_train':
         datasets={}
         datasets['wholesetname']=f'{dataset_name}'
