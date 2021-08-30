@@ -1,6 +1,5 @@
 """
 Script for benchmarking the 3DMatch test dataset.
-
 Author: Zan Gojcic, Shengyu Huang
 Last modified: 30.11.2020
 """
@@ -20,10 +19,8 @@ def rotation_error(R1, R2):
     Args: 
         R1 (torch tensor): Estimated rotation matrices [b,3,3]
         R2 (torch tensor): Ground truth rotation matrices [b,3,3]
-
     Returns:
         ae (torch tensor): Rotation error in angular degreees [b,1]
-
     """
     R_ = torch.matmul(R1.transpose(1,2), R2)
     e = torch.stack([(torch.trace(R_[_, :, :]) - 1) / 2 for _ in range(R_.shape[0])], dim=0).unsqueeze(1)
@@ -39,14 +36,11 @@ def translation_error(t1, t2):
     """
     Torch batch implementation of the rotation error between the estimated and the ground truth rotatiom matrix. 
     Rotation error is defined as r_e = \arccos(\frac{Trace(\mathbf{R}_{ij}^{T}\mathbf{R}_{ij}^{\mathrm{GT}) - 1}{2})
-
     Args: 
         t1 (torch tensor): Estimated translation vectors [b,3,1]
         t2 (torch tensor): Ground truth translation vectors [b,3,1]
-
     Returns:
         te (torch tensor): translation error in meters [b,1]
-
     """
     return torch.norm(t1-t2, dim=(1, 2))
 
@@ -58,7 +52,6 @@ def computeTransformationErr(trans, info):
     Args:
     trans (numpy array): transformation matrices [n,4,4]
     info (numpy array): covariance matrices of the gt transformation paramaters [n,4,4]
-
     Returns:
     p (float): transformation error
     """
@@ -79,7 +72,6 @@ def read_trajectory(filename, dim=4):
     Args:
     filename (str): path to the '.txt' file containing the trajectory data
     dim (int): dimension of the transformation matrix (4x4 for 3D data)
-
     Returns:
     final_keys (dict): indices of pairs with more than 30% overlap (only this ones are included in the gt file)
     traj (numpy array): gt pairwise transformation matrices for n pairs[n,dim, dim] 
@@ -118,7 +110,6 @@ def read_pre_trajectory(filename, dim=4):
     Args:
     filename (str): path to the '.txt' file containing the trajectory data
     dim (int): dimension of the transformation matrix (4x4 for 3D data)
-
     Returns:
     final_keys (dict): indices of pairs with more than 30% overlap (only this ones are included in the gt file)
     traj (numpy array): gt pairwise transformation matrices for n pairs[n,dim, dim] 
@@ -159,7 +150,6 @@ def read_trajectory_info(filename, dim=6):
     Args:
     filename (str): path to the '.txt' file containing the trajectory information data
     dim (int): dimension of the transformation matrix (4x4 for 3D data)
-
     Returns:
     n_frame (int): number of fragments in the scene
     cov_matrix (numpy array): covariance matrix of the transformation matrices for n pairs[n,dim, dim] 
@@ -190,7 +180,6 @@ def extract_corresponding_trajectors(est_pairs,gt_pairs, gt_traj):
     est_pairs (numpy array): indices of point cloud pairs with enough estimated overlap [m, 3]
     gt_pairs (numpy array): indices of gt overlaping point cloud pairs [n,3]
     gt_traj (numpy array): 3d array of the gt transformation parameters [n,4,4]
-
     Returns:
     ext_traj (numpy array): gt transformation parameters for the point cloud pairs from est_pairs [m,4,4] 
     """
@@ -207,7 +196,6 @@ def write_trajectory(traj,metadata, filename, dim=4):
     """
     Writes the trajectory into a '.txt' file in 3DMatch/Redwood format. 
     Format specification can be found at http://redwood-data.org/indoor/fileformat.html
-
     Args:
     traj (numpy array): trajectory for n pairs[n,dim, dim] 
     metadata (numpy array): file containing metadata about fragment numbers [n,3]
@@ -245,7 +233,7 @@ def read_pairs(src_path,tgt_path,n_points):
     tgt_pcd,tgt_embedding = tgt_pcd[tgt_permute],tgt_embedding[tgt_permute]
     return src_pcd,src_embedding,tgt_pcd,tgt_embedding
 
-def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_info, err2=0.2):
+def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_info, err2=0.2, nonconsecutive=True):
     """
     Evaluates the performance of the registration algorithm according to the evaluation protocol defined
     by the 3DMatch/Redwood datasets. The evaluation protocol can be found at http://redwood-data.org/indoor/registration.html
@@ -258,7 +246,6 @@ def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_i
     gt (numpy array): ground truth transformation matrices [n,4,4]
     gt_cov (numpy array): covariance matrix of the ground truth transfromation parameters [n,6,6]
     err2 (float): threshold for the RMSE of the gt correspondences (default: 0.2m)
-
     Returns:
     precision (float): mean registration precision over the scene (not so important because it can be increased see papers)
     recall (float): mean registration recall over the scene (deciding parameter for the performance of the algorithm)
@@ -269,15 +256,22 @@ def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_i
     flags=[]
     errors=[]
 
-    for idx in range(gt_pairs.shape[0]):
-        i = int(gt_pairs[idx,0])
-        j = int(gt_pairs[idx,1])
+    if nonconsecutive:
+        for idx in range(gt_pairs.shape[0]):
+            i = int(gt_pairs[idx,0])
+            j = int(gt_pairs[idx,1])
 
-        # Only non consecutive pairs are tested
-        if j - i > 1:
+            # Only non consecutive pairs are tested
+            if abs(j - i) > 1:
+                gt_mask[i, j] = idx
+
+        n_gt = np.sum(gt_mask > 0)
+    else:
+        for idx in range(gt_pairs.shape[0]):
+            i = int(gt_pairs[idx,0])
+            j = int(gt_pairs[idx,1])
             gt_mask[i, j] = idx
-
-    n_gt = np.sum(gt_mask > 0)
+        n_gt = np.sum(gt_mask > 0)+1
 
     good = 0
     n_res = 0
@@ -314,7 +308,10 @@ def benchmark(cfg,datasets,max_iter,yoho_sign='YOHO_O'):
     te_per_scene = defaultdict(list)
     re_all, te_all, precision, recall = [], [], [], []
     n_valids= []
+    nonconsecutive=True
     wholesetname=datasets['wholesetname']
+    if wholesetname=='WHU-TLS':
+        nonconsecutive=False
     result_dir=f'{cfg.output_cache_fn}/Testset/{wholesetname}/Eval_results/{yoho_sign}_RR/{max_iter}iters'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
@@ -329,20 +326,26 @@ def benchmark(cfg,datasets,max_iter,yoho_sign='YOHO_O'):
         
         n_valid=0
         for ele in gt_pairs:
-            diff=abs(int(ele[0])-int(ele[1]))
-            n_valid+=diff>1
+            if nonconsecutive:
+                diff=abs(int(ele[0])-int(ele[1]))
+                n_valid+=diff>1
+            else:
+                n_valid+=1
         n_valids.append(n_valid)
         n_fragments, gt_traj_cov = read_trajectory_info(f'{gt_dir}.info')
         print(os.path.join(pre_dir,'pre.log'))
         est_pairs, est_traj = read_pre_trajectory(os.path.join(pre_dir,'pre.log'))
-        temp_precision, temp_recall,c_flag,c_error = evaluate_registration(n_fragments, est_traj, est_pairs, gt_pairs, gt_traj, gt_traj_cov,err2=cfg.RR_dist_threshold)
+        temp_precision, temp_recall,c_flag,c_error = evaluate_registration(n_fragments, est_traj, est_pairs, gt_pairs, gt_traj, gt_traj_cov,err2=cfg.RR_dist_threshold,nonconsecutive=nonconsecutive)
         c_flags[dataset.name]=c_flag
         c_errors[dataset.name]=c_error
         # Filter out the estimated rotation matrices
         ext_gt_traj = extract_corresponding_trajectors(est_pairs,gt_pairs, gt_traj)
         re = rotation_error(torch.from_numpy(ext_gt_traj[:,0:3,0:3]), torch.from_numpy(est_traj[:,0:3,0:3])).cpu().numpy()[np.array(c_flag)==0]
         te = translation_error(torch.from_numpy(ext_gt_traj[:,0:3,3:4]), torch.from_numpy(est_traj[:,0:3,3:4])).cpu().numpy()[np.array(c_flag)==0]
-
+        if re.shape[0]==0:
+            re=np.ones([n_valid])*180
+        if te.shape[0]==0:
+            te=np.ones([n_valid])
         re_per_scene['mean'].append(np.mean(re))
         re_per_scene['median'].append(np.median(re))
         re_per_scene['min'].append(np.min(re))
@@ -377,4 +380,3 @@ def benchmark(cfg,datasets,max_iter,yoho_sign='YOHO_O'):
     f.write("Mean median RTE: {:.3F}: +- {:.3f}\n".format(np.mean(te_per_scene['median']),np.std(te_per_scene['median'])))
     f.close()
     return Registration_Recall,c_flags,c_errors
-
