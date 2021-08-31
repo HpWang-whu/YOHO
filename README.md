@@ -7,10 +7,11 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - 2021.8.29 The code of the PointNet backbone YOHO is released, which is poorer but highly generalizable. [pn_yoho](https://github.com/HpWang-whu/YOHO-PN)
 - 2021.7.6 The code of the FCGF backbone YOHO is released. [Project page](https://hpwang-whu.github.io/YOHO/)
 
-## Performance and efficiency
+## Performance
+<img src="figures/performance.jpg" alt="Performance" style="zoom:50%;" />
 
-(1)<img src="figures/performance.jpg" alt="Performance" style="zoom:50%;" />
-(2)<img src="figures/Time.jpg" alt="Time" style="zoom:50%;" />
+## Network Structure
+<img src="figures/net.jpg" alt="Network" style="zoom:50%;" />
 
 ## Requirements
 
