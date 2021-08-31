@@ -1,231 +1,142 @@
-<!doctype html>
-<html>
 
-<head>
-  <title>You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors
+</title>
+  </head>
+  <body>
+    <header class="page-header" role="banner">
+      <h1 class="project-name">You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</h1>
+      <div class="btn-group-flex">
+        <a href="" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Paper</a>
+        <a href="https://github.com/HpWang-whu/YOHO" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Code/Pretrained Model/Dataset</a>
+      </div>
+      <div class="authors">
+        <p class="authors__name">Haiping Wang<sup>*,1</sup></p>,
+        <p class="authors__name">Yuan Liu<sup>*,2</sup></p>,
+        <p class="authors__name">Zhen Dong</a><sup>&dagger;,1</sup></a></span>,
+        <p class="authors__name">Wenping Wang<sup>2,3</sup></p>,
+        <p class="authors__name">Bisheng Yang</a><sup>&dagger;,1</sup></a></span>
+      </div>
+      <div class="affiliations">
+        <p class="affiliation__name"><sup>1</sup>Wuhan University</p>,
+        <p class="affiliation__name"><sup>2</sup>The University of Hong Kong</p>,
+        <p class="affiliation__name"><sup>3</sup>Texas A&M University</p>
+        <!-- <p class="affiliation__name"><sup>3</sup>Institut de Robòtica i Informàtica Industrial, CSIC-UPC</p> -->
+      </div>
+      <div class="affiliations">
+        <p class="affiliation__name"><sup>*</sup>The first two authors contribute equally</p>,
+        <p class="affiliation__name"><sup>&dagger;</sup>Corresponding authors</p>
+        <!-- <p class="affiliation__name"><sup>3</sup>Institut de Robòtica i Informàtica Industrial, CSIC-UPC</p> -->
+      </div>
+      <!-- <div>
+        <p>  (* Equal contribution) </p>
+      </div> -->
+    </header>
 
-  <style type="text/css">
-    body {
-      margin: 0px;
-      background-color: #F3F3F3;
-      font-family: 'PT Sans', 'Arial';
-    }
-    h1 {
-      text-align: center;
-      color: #444444;
-      font-size: 36px;
-      margin-top:50px;
-      margin-bottom: 0px;
-    }
-    h2 {
-      margin-top: 120px;
-      margin-bottom: 10px;
-      color: #FFCF43;
-      font-size: 30px;
-    }
-    #headerdiv {
-      width: 1150px;
-      margin: auto;
-    }
-    #maincontent {
-      width: 1000px;
-      margin: auto;
-      height: 340px;
-    }
-    #suppcontent {
-      padding-top: 0px;
-      background-color: black;
-      color: #BBBBBB;
-      font-size: 16px;
-    }
-    
-    #content {
-      width: 1000px;
-      margin: auto;
-    }
-    td {
-      vertical-align: top;
-      text-align: center;
-    }
-    .desc {
-      color: #888888;
-    }
-    .center {
-      display: block;
-      width: 100%;
-      text-align: center;
-    }
-    .nips {
-      text-align: center;
-      margin-top: 0px;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-    .nips a {
-      color: #777777;
-    }
-    .google {
-      text-align: center;
-      margin-top: 2px;
-      font-size: 15px;
-    }
-    .google a {
-      color: #204c87;
-    }
-    .center {
-      text-align: center;
-    }
-    .authors {
-      text-align: center;
-    }
-    .author {
-      margin-right: 45px;
-      font-size: 21px;
-    }
-    .author a {
-      color: #3376cb;
-    }
-    #abstract {
-      line-height: 1.3;
-      width: 1000px;
-      font-size: 16px;
-    }
-    h2 {
-      color: #666666;
-      margin-top: 70px;
-    }
-    h1.supp {
-      padding-top: 40px;
-      margin-top: 0;
-      color:#aaaaaa;
-      font-size:40px;
-      margin-bottom: 20px;
-    }
-    h2.abstract {
-      color: #555555;
-      margin-top: 0px;
-    }
-    #files {
-      color: #555555;
-      margin-top: 20px;
-      font-size: 25px;
-    }
-    #files a {
-      text-decoration: None;
-      color: #3376cb;
-    }
-    a {
-      text-decoration: none;
-    }
-  </style>
+    <main id="content" class="main-content" role="main">
+      <p><img src="./pics/RR-T.jpg" alt=""  width="700"/></p>
 
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
-  <link href="css/frame.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="css/controls.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="css/custom.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <style>
-    .menu-index {
-      color: rgb(255, 255, 255) !important;
-      opacity: 1 !important;
-      font-weight: 700 !important;
-    }
-  </style>
-</head>
+<h2 id="Abstract">Abstract</h2>
 
-<body>
-        <!--Start Intro-->
-<div id="headerdiv">
-  <h1>
-  You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors
-</div>
-  <div id="maincontent">
-  <div class="authors" style="margin-top: 10px">
-  <span class="author"><a href="https://scholar.google.com.hk/citations?hl=zh-CN&user=YAdDCr0AAAAJ">Haiping Wang</a><sup>*,1</sup></a></span>
-  <span class="author"><a href="https://liuyuan-pal.github.io/">Yuan Liu</a><sup>*,2</sup></a></span>
-  <span class="author"><a href="https://scholar.google.com/citations?hl=zh-CN&user=DZsF2oIAAAAJ">Zhen Dong</a><sup>&dagger;,1</sup></a></span>
-  <span class="author"><a href="https://www.cs.hku.hk/people/academic-staff/wenping">Wenping Wang</a><sup>3</sup></a></span>
-  <span class="author"><a href="https://scholar.google.com/citations?user=TJkm8igAAAAJ&hl=zh-CN">Bisheng Yang</a><sup>&dagger;,1</sup></a></span>
-  </div>
-<div class="google" style="margin-top: 10px">1. Wuhan University &nbsp;&nbsp;&nbsp;&nbsp; 2. The University of Hong Kong &nbsp;&nbsp;&nbsp;&nbsp; 3. Texas A&M University</div>
-<div class="google" style="margin-top: 5px">* The first two authors contribute equally &nbsp; &nbsp; &nbsp; &nbsp; &dagger; Corresponding authors</div>
-  
-<div class="flex-item flex-column">
+<p>In this paper, we propose a novel local descriptor-based framework, called You Only Hypothesize Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation equivariant part, which enables us to estimate the registration from just one correspondence hypothesis. Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on four widely-used datasets, the 3DMatch/3DLoMatch datasets, the ETH dataset and the WHU-TLS dataset.</p>
+
+<!-- <h2 id="Introduction">Method</h2>
+<p>Given the input point cloud, our target is to estimate a normal for every point.</p>
+
+<p><img src="/h3d-net/assets/images/method.png" alt="" /></p> -->
 
 
-<div class="content">
-<div class="content-table">
-<div class="flex-row">
-<div id="abstract">
-    <h2 class="abstract"> Abstract </h2>
-In this paper, we propose a novel local descriptor-based framework, called You Only Hypothesize Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation equivariant part, which enables us to estimate the registration from just one correspondence hypothesis. Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on four widely-used datasets, the 3DMatch/3DLoMatch datasets, the ETH dataset and the WHU-TLS dataset.
-</div>
-    <div id="files" class="center" style="margin-top: 10px">
-      [<a href="">Paper</a>]&nbsp;&nbsp;&nbsp;
-      [<a href="https://github.com/HpWang-whu/YOHO"> Code/Pretrained Model/Dataset </a>] 
-    </div>
-  </div>
-  </div>
-  </div>
-</div>
+<h2 id="Network Structure">Network Structure</h2>
+
+
+<figure align="center">
+  <p align="center"><img src="./pics/net.jpg" width="1000" />
+  <figcaption> Network Architectures of YOHO. Left: YOHO, right: YOHO-PN.
+  </figcaption>
+  </p>
+</figure>
 
 
 
-  <div class="content-container">
-    <div class="content">
 
-      <div class="content-table flex-column">
-        <!--Start Text with Images and Image buttons-->
-        <h2 class="add-top-margin">Registration Recall -- Time Consuming</h2>
-        <p class="text">
-        </p>
-        <div class="gallery">
-          <img width=500 src="pics/RR-T.jpg"></a>
-        </div>
+<h2 id="Quantative Results">Quantative Results</h2>
 
-        <!--End Intro-->
-        <h2 class="add-top-margin">YOHO Structure</h2>
-        <div class="gallery">
-          <img width=999 align=center src="pics/net.jpg"></a>
-        </div>
 
-        <!--Start Text with Images and Image buttons-->
-        <h2 class="add-top-margin">Quantative Results</h2>
-        <p class="text">
-        </p>
-        <div class="gallery">
-          <img width=999 src="pics/maintable.jpg"></a>
-        </div>
+<figure align="center">
+  <p align="center"><img src="./pics/maintable.jpg" width="1000" />
+  </p>
+</figure>
 
-        <h2 class="add-top-margin">Qualitative Results</h2>
-        <p class="text">
-        </p>
-        <div class="gallery">
-          <img width=999 src="pics/visualresults.jpg"></a>
-        </div>
 
-        <!--Start Text with Images and Videos-->
-        <h2 class="add-top-margin">How fast YOHO is to find a ground truth transformation?</h2>
-        <div class="box">
-            <video preload controls muted playsinline class="image" width="330">
-                <source src="pics/3dmatch.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-            <video preload controls muted playsinline class="image" width="330">
-                <source src="pics/3dlo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-            <video preload controls muted playsinline class="image" width="330">
-                <source src="pics/ETH.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>  
-        </div>
+<h2 id="Qualitative Results">Qualitative Results</h2>
 
-    </div>
-  </div>
-</body>
 
+<figure align="center">
+  <p align="center"><img src="./pics/visualresults.jpg" width="1200" />
+  </p>
+</figure>
+
+<!-- 
+<p align="center">
+  <img src="./images/Surface.png" width="700" />
+  <div style="text-align:center"><p3>The comparison of the Poisson surface reconstruction using the estimated normals from different methods.</p3></div>
+</p> -->
+
+<!-- <h2>Denoising</h2> -->
+<!-- <p align="center">
+    <img src="./images/denoise.png" width="700" />
+    <div style="text-align:center"><p5>Qualitative results of point cloud denoising. The first row shows the denoised point clouds while the second row shows the corresponding reconstructed surfaces.</p5></div>
+    <!-- <h3>denoise</h3> -->
+<!-- </p> --> 
+
+<h2 id="Short video">How fast YOHO is to find a ground truth transformation?</h2>
+<p align="center">
+    <video width="500" controls>
+        <source src=".pics/3dmatch.mp4" type="video/mp4"> 
+    </video>
+    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
+  </p>
+
+  <p align="center">
+    <video width="500" controls>
+        <source src="./pics/3dlo.mp4" type="video/mp4"> 
+    </video>
+    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
+  </p>
+
+  <p align="center">
+    <video width="500" controls>
+        <source src="./pics/ETH.mp4" type="video/mp4"> 
+    </video>
+    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
+  </p>
+  <!-- <p align="center">
+      <img src="./images/denoise.mp4" width="700" />
+  </p> -->
+<!-- 
+<h2 id="related-work">Related work</h2>
+
+<ol>
+  <li><a href="https://arxiv.org/abs/1710.04954">PCPNET: Learning Local Shape Properties from Raw Point Clouds (2018)</a></li>
+  <li><a href="https://arxiv.org/abs/1904.07172">Deep Iterative Surface Normal Estimation (2020)</a></li>
+  <li><a href="https://arxiv.org/abs/2003.10826">DeepFit: 3D Surface Fitting via Neural Network Weighted Least Squares (2020)</a></li>
+</ol>
+
+<h2 id="bibtex">BibTeX</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{2108.05836,
+Author = {Runsong Zhu and Yuan Liu and Zhen Dong and Tengping Jiang and Yuan Wang and Wenping Wang and Bisheng Yang},
+Title = {AdaFit: Rethinking Learning-based Normal Estimation on Point Clouds},
+Year = {2021},
+Eprint = {arXiv:2108.05836},
+</code></pre></div></div>
+-->
+    </main>
+  </body>
 </html>
