@@ -8,7 +8,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - 2021.7.6 The code of the FCGF backbone YOHO is released. [Project page](https://hpwang-whu.github.io/YOHO/)
 
 ## Performance
-<img src="figures/performance.jpg" alt="Performance" style="zoom:25%;" />
+<img src="figures/performance.jpg" alt="Performance" style="zoom:10%;" />
 
 ## Network Structure
 <img src="figures/net.jpg" alt="Network" style="zoom:50%;" />
