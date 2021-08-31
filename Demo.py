@@ -38,8 +38,7 @@ for name,dataset in datasets.items():
     keys1=dataset.get_kps('1')
     match_dir=f'{config_c.output_cache_fn}/Testset/{dataset.name}/Match'
     matches=np.load(f'{match_dir}/0-1.npy')
-    print(matches.shape)
-    print('Feature matching rate:',evaluate_the_match(keys0,keys1,matches,dataset.get_transform('0','1'),config_c.ok_match_dist_threshold))
+    print('pred pair num:',matches.shape[0],'Inliner ratio:',evaluate_the_match(keys0,keys1,matches,dataset.get_transform('0','1'),config_c.ok_match_dist_threshold))
 
     #Dr index extraction
     drindex_extractor=extractor_dr_index(config_c)
