@@ -13,7 +13,7 @@
     <header class="page-header" role="banner">
       <h1 class="project-name">You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</h1>
       <div class="btn-group-flex">
-        <a href="" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Paper</a>
+        <a href="https://arxiv.org/abs/2109.00182" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Paper</a>
         <a href="https://github.com/HpWang-whu/YOHO" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Code/Pretrained Model/Dataset</a>
       </div>
       <div class="authors">
@@ -27,16 +27,12 @@
         <p class="affiliation__name"><sup>1</sup>Wuhan University</p>,
         <p class="affiliation__name"><sup>2</sup>The University of Hong Kong</p>,
         <p class="affiliation__name"><sup>3</sup>Texas A&M University</p>
-        <!-- <p class="affiliation__name"><sup>3</sup>Institut de Robòtica i Informàtica Industrial, CSIC-UPC</p> -->
       </div>
       <div class="affiliations">
         <p class="affiliation__name"><sup>*</sup>The first two authors contribute equally</p>,
         <p class="affiliation__name"><sup>&dagger;</sup>Corresponding authors</p>
-        <!-- <p class="affiliation__name"><sup>3</sup>Institut de Robòtica i Informàtica Industrial, CSIC-UPC</p> -->
       </div>
-      <!-- <div>
-        <p>  (* Equal contribution) </p>
-      </div> -->
+
     </header>
 
     <main id="content" class="main-content" role="main">
@@ -46,10 +42,6 @@
 
 <p>In this paper, we propose a novel local descriptor-based framework, called You Only Hypothesize Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation equivariant part, which enables us to estimate the registration from just one correspondence hypothesis. Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on four widely-used datasets, the 3DMatch/3DLoMatch datasets, the ETH dataset and the WHU-TLS dataset.</p>
 
-<!-- <h2 id="Introduction">Method</h2>
-<p>Given the input point cloud, our target is to estimate a normal for every point.</p>
-
-<p><img src="/h3d-net/assets/images/method.png" alt="" /></p> -->
 
 
 <h2 id="Network Structure">Network Structure</h2>
@@ -80,18 +72,6 @@
   </p>
 </figure>
 
-<!-- 
-<p align="center">
-  <img src="./images/Surface.png" width="700" />
-  <div style="text-align:center"><p3>The comparison of the Poisson surface reconstruction using the estimated normals from different methods.</p3></div>
-</p> -->
-
-<!-- <h2>Denoising</h2> -->
-<!-- <p align="center">
-    <img src="./images/denoise.png" width="700" />
-    <div style="text-align:center"><p5>Qualitative results of point cloud denoising. The first row shows the denoised point clouds while the second row shows the corresponding reconstructed surfaces.</p5></div>
-    <!-- <h3>denoise</h3> -->
-<!-- </p> --> 
 
 <h2 id="Short video">How many RANSAC iterations are needed?</h2>
 <p align="center">
@@ -105,36 +85,28 @@
     <video width="500" controls>
         <source src="./pics/3dlo.mp4" type="video/mp4"> 
     </video>
-    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
   </p>
 
   <p align="center">
     <video width="500" controls>
         <source src="./pics/ETH.mp4" type="video/mp4"> 
     </video>
-    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
   </p>
-  <!-- <p align="center">
-      <img src="./images/denoise.mp4" width="700" />
-  </p> -->
-<!-- 
-<h2 id="related-work">Related work</h2>
 
-<ol>
-  <li><a href="https://arxiv.org/abs/1710.04954">PCPNET: Learning Local Shape Properties from Raw Point Clouds (2018)</a></li>
-  <li><a href="https://arxiv.org/abs/1904.07172">Deep Iterative Surface Normal Estimation (2020)</a></li>
-  <li><a href="https://arxiv.org/abs/2003.10826">DeepFit: 3D Surface Fitting via Neural Network Weighted Least Squares (2020)</a></li>
-</ol>
 
 <h2 id="bibtex">BibTeX</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{2108.05836,
-Author = {Runsong Zhu and Yuan Liu and Zhen Dong and Tengping Jiang and Yuan Wang and Wenping Wang and Bisheng Yang},
-Title = {AdaFit: Rethinking Learning-based Normal Estimation on Point Clouds},
-Year = {2021},
-Eprint = {arXiv:2108.05836},
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+@misc{wang2021hypothesize,
+      title={You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors}, 
+      author={Haiping Wang and Yuan Liu and Zhen Dong and Wenping Wang and Bisheng Yang},
+      year={2021},
+      eprint={2109.00182},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
 </code></pre></div></div>
--->
+
     </main>
   </body>
 </html>
