@@ -275,7 +275,24 @@ def evaluate_registration(num_fragment, result, result_pairs, gt_pairs, gt, gt_i
 
     good = 0
     n_res = 0
-    for idx in range(result_pairs.shape[0]):
+    if not nonconsecutive:
+        start_check=1
+        n_res += 1
+        i = int(result_pairs[0,0])
+        j = int(result_pairs[0,1])
+        pose = result[0,:,:]
+        gt_idx = gt_mask[i, j]
+        p = computeTransformationErr(np.linalg.inv(gt[0,:,:]) @ pose, gt_info[0,:,:])
+        errors.append(np.sqrt(p)) #不包括flags==2的
+        if p <= err2:
+            good += 1
+            flags.append(0)
+        else:
+            flags.append(1)
+    else:
+        start_check=0
+
+    for idx in range(start_check,result_pairs.shape[0]):
         i = int(result_pairs[idx,0])
         j = int(result_pairs[idx,1])
         pose = result[idx,:,:]
