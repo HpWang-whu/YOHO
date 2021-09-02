@@ -370,12 +370,10 @@ class yohoo:
             gt=dataset.get_transform(id0,id1)
             #if os.path.exists(f'{Save_dir}/{id0}-{id1}.npz'):continue
             #Keypoints
-            keysdir=f'/media/whp/108c8ed7-1949-49a7-b821-ff93102479f9/whp/whole_pipeline/data/origin_data/{dataset.name}/Keypoints_PC'
             if dataset.name[0:4]=='3dLo':
                 datasetname=f'3d{dataset.name[4:]}'
-                keysdir=f'/media/whp/108c8ed7-1949-49a7-b821-ff93102479f9/whp/whole_pipeline/data/origin_data/{datasetname}/Keypoints_PC'
-            Keys0=np.load(f'{keysdir}/cloud_bin_{id0}Keypoints.npy')#dataset.get_kps(id0)
-            Keys1=np.load(f'{keysdir}/cloud_bin_{id1}Keypoints.npy')#dataset.get_kps(id1)
+            Keys0=dataset.get_kps(id0)
+            Keys1=dataset.get_kps(id1)
             #Key_pps
             pps=np.load(f'{match_dir}/{id0}-{id1}.npy')
             Keys_m0=Keys0[pps[:,0]]

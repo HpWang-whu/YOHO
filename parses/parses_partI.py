@@ -92,6 +92,10 @@ Network_Args.add_argument("--test_network_type",type=str,default="PartI_test",
                         help="network type for test")
 Test_Args.add_argument("--test_batch_size",type=int,default=900,
                         help="TEST batch size")
+Test_Args.add_argument('--TR_rerror',type=float,default=3,
+                        help="R threshold for TR")
+Test_Args.add_argument('--TR_terror',type=float,default=0.1,
+                        help="t threshold for TR")
 Test_Args.add_argument("--ransac_c_inlinerdist",type=float,default=0.07,
                         help="inliner distance threshold distance for YOHO-c")
 Test_Args.add_argument("--fmr_ratio",type=float,default=0.05,
