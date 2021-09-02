@@ -104,6 +104,7 @@ python Train.py --Part PartII
 ```
 
 We also offer the pretrained models in ```./model/PartI_train``` and ```./model/PartII_train```.
+If the model above is demaged by accident(Runtime error: storage has wrong size), we offer another copy here.[model](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing)
 
 ## Demo
 
@@ -140,7 +141,7 @@ where PartI is yoho-c and PartII is yoho-o, max_iter is the ransac times, PartI 
 
 With the TestData downloaded above, without any refinement of the model trained on the indoor 3DMatch dataset,  the generalization result on the outdoor ETH dataset can be got by:
 
-- Prepare the testset
+- Prepare the testset [if out of memory, you can (1)change the parameter "batch_size" in ```YOHO_testset.py-->batch_feature_extraction()-->loader``` from 4 to 1 (2)or carry out the command scene by scene by controlling the scene processed now in ```utils/dataset.py-->get_dataset_name()-->if name==ETH```]
 
 ```
 python YOHO_testset.py --dataset ETH --voxel_size 0.15
