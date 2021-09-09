@@ -52,7 +52,7 @@ if sign=='PartI':
     if args.ransac_d>0:
         config.ransac_c_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
-    eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter,TR_max_iter=1000)
+    eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter)
     eval_net.eval()
 elif sign=='PartII':
     config,nouse=parses_partII.get_config()
@@ -62,7 +62,7 @@ elif sign=='PartII':
     if args.ransac_d>0:
         config.ransac_o_inlinerdist=args.ransac_d
     config.testset_name=args.dataset
-    eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter,TR_max_iter=1000)
+    eval_net=name2evaluator[config.evaluator](config,max_iter=args.max_iter)
     eval_net.eval()
 else:
     print('wrong sign')

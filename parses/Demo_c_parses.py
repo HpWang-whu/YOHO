@@ -55,11 +55,7 @@ Test_Args.add_argument("--worker_num",type=int,default=16,
                         help="the threads used for dataloader")
 
 Test_Args.add_argument("--ransac_c_inlinerdist",type=float,default=0.07,
-                        help="inliner distance threshold distance for YOHO-c")
-Test_Args.add_argument("--TR_rerror",type=float,default=3,
-                        help="The R error to determain the true transformation")
-Test_Args.add_argument("--TR_terror",type=float,default=0.1,
-                        help="The t error to determain the true transformation")       
+                        help="inliner distance threshold distance for YOHO-c")   
 Test_Args.add_argument("--ok_match_dist_threshold",type=float,default=0.1,
                         help="The t error to determain the true transformation")
 Test_Args.add_argument("--RR_dist_threshold",type=float,default=0.2,

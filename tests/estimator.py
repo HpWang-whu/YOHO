@@ -29,8 +29,6 @@ class yohoc:
     def __init__(self,cfg):
         self.cfg=cfg
         self.inliner_dist=cfg.ransac_c_inlinerdist
-        self.t_threshold=cfg.TR_terror
-        self.R_threshold=cfg.TR_rerror
 
 
     def DR_statictic(self,DR_indexs):
@@ -77,13 +75,11 @@ class yohoc:
         return Rdiff,tdiff
 
 
-    def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
+    def ransac(self,dataset,max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
         Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
-        make_non_exists_dir(Save_dir_TR)
 
         if dataset.name[0:4]=='3dLo':
             datasetname=f'3d{dataset.name[4:]}'
@@ -110,7 +106,6 @@ class yohoc:
   
             if R_index_pre_probability is None:
                 np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=np.eye(4), center=0,axis=0,recalltime=50001)
-                np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=np.eye(4), center=0,recalltime=50001)
             else:
                 #RANSAC
                 iter_ransac=0
@@ -143,30 +138,6 @@ class yohoc:
                 #save:
                 np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
 
-                #RANSAC TR
-                #if os.path.exists(f'{Save_dir_TR}/{id0}-{id1}.npz'):continue
-                iter_ransac_TR=0
-                recall_time_TR=100000
-                best_trans_ransac_TR=np.eye(4)
-                best_3p_in_0_TR=np.ones([3,3])
-                best_3p_in_1_TR=np.ones([3,3])
-                while iter_ransac_TR<max_iter:
-                    R_index=np.random.choice(range(60),p=R_index_pre_probability)
-                    if (len(R_index_pre_statistic[R_index])<2):
-                        continue
-                    iter_ransac_TR+=1
-                    idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-                    kps0_init=Keys_m0[idxs_init]
-                    kps1_init=Keys_m1[idxs_init]
-                    trans=self.Threepps2Tran(kps0_init,kps1_init)
-                    Rdiff,tdiff=self.transdiff(gt,trans)
-                    if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
-                        best_trans_ransac_TR=trans
-                        best_3p_in_0_TR=kps0_init
-                        best_3p_in_1_TR=kps1_init
-                        recall_time_TR=iter_ransac_TR
-                        break
-                np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
         R_pre_log(dataset,Save_dir)
 
 
@@ -175,8 +146,6 @@ class yohoc_mul:
     def __init__(self,cfg):
         self.cfg=cfg
         self.inliner_dist=cfg.ransac_c_inlinerdist
-        self.t_threshold=cfg.TR_terror
-        self.R_threshold=cfg.TR_rerror
 
 
     def DR_statictic(self,DR_indexs):
@@ -223,11 +192,10 @@ class yohoc_mul:
         return Rdiff,tdiff
 
 
-    def ransac_once(self,dataset,max_iter,TR_max_iter,pair):
+    def ransac_once(self,dataset,max_iter,pair):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
         Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
 
         if dataset.name[0:4]=='3dLo':
             datasetname=f'3d{dataset.name[4:]}'
@@ -252,7 +220,7 @@ class yohoc_mul:
   
         if R_index_pre_probability is None:
             np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=np.eye(4), center=0,axis=0,recalltime=50001)
-            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=np.eye(4), center=0,recalltime=50001)
+            
         else:
             #RANSAC
             iter_ransac=0
@@ -283,39 +251,12 @@ class yohoc_mul:
                     recall_time=iter_ransac
             np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, center=np.concatenate([best_3p_in_0,best_3p_in_1],axis=0),recalltime=recall_time)
 
-            #RANSAC TR
-            iter_ransac_TR=0
-            recall_time_TR=100000
-            best_trans_ransac_TR=np.eye(4)
-            best_3p_in_0_TR=np.ones([3,3])
-            best_3p_in_1_TR=np.ones([3,3])
-            while iter_ransac_TR<max_iter:
-                R_index=np.random.choice(range(60),p=R_index_pre_probability)
-                if (len(R_index_pre_statistic[R_index])<2):
-                    continue
-                iter_ransac_TR+=1
-                idxs_init=np.random.choice(np.array(R_index_pre_statistic[R_index]),3) #guarantee the same index
-                kps0_init=Keys_m0[idxs_init]
-                kps1_init=Keys_m1[idxs_init]
-                trans=self.Threepps2Tran(kps0_init,kps1_init)
-                Rdiff,tdiff=self.transdiff(gt,trans)
-                if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
-                    best_trans_ransac_TR=trans
-                    best_3p_in_0_TR=kps0_init
-                    best_3p_in_1_TR=kps1_init
-                    recall_time_TR=iter_ransac_TR
-                    break
-            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR, center=np.concatenate([best_3p_in_0_TR,best_3p_in_1_TR],axis=0),recalltime=recall_time_TR)
 
-
-
-    def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
+    def ransac(self,dataset,max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Index_dir=f'{match_dir}/DR_index'
         Save_dir=f'{match_dir}/YOHO_C/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOHO_C_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
-        make_non_exists_dir(Save_dir_TR)
 
         if dataset.name[0:4]=='3dLo':
             datasetname=f'3d{dataset.name[4:]}'
@@ -326,7 +267,7 @@ class yohoc_mul:
         print(f'Ransac with YOHO-C on {dataset.name}:')
         pair_ids=dataset.pair_ids
         pool = Pool(len(pair_ids))
-        func = partial(self.ransac_once,dataset,max_iter,TR_max_iter)
+        func = partial(self.ransac_once,dataset,max_iter)
         pool.map(func,pair_ids)
         pool.close()
         pool.join()
@@ -341,8 +282,6 @@ class yohoo:
         self.inliner_dist=cfg.ransac_o_inlinerdist
         self.Nei_in_SO3=np.load(f'{self.cfg.SO3_related_files}/60_60.npy')
         self.Rgroup=np.load(f'{self.cfg.SO3_related_files}/Rotation.npy')
-        self.t_threshold=cfg.TR_terror
-        self.R_threshold=cfg.TR_rerror
 
     def overlap_cal(self,key_m0,key_m1,T):
         key_m1=transform_points(key_m1,T)
@@ -356,13 +295,11 @@ class yohoo:
         return Rdiff,tdiff
 
 
-    def ransac(self,dataset,max_iter=1000,TR_max_iter=1000):
+    def ransac(self,dataset,max_iter=1000):
         match_dir=f'{self.cfg.output_cache_fn}/Testset/{dataset.name}/Match'
         Trans_dir=f'{match_dir}/Trans_pre'
         Save_dir=f'{match_dir}/YOHO_O/{max_iter}iters'
-        Save_dir_TR=f'{match_dir}/YOHO_O_TR/{TR_max_iter}iters'
         make_non_exists_dir(Save_dir)
-        make_non_exists_dir(Save_dir_TR)
 
         print(f'Ransac with YOHO-O on {dataset.name}:')
         for pair in tqdm(dataset.pair_ids):
@@ -384,7 +321,6 @@ class yohoo:
             index=np.arange(Trans.shape[0])
             np.random.shuffle(index)
             Trans_ransac=Trans[index[0:max_iter]] #if max_iter>index.shape[0] then =index.shape[0] automatically
-            Trans_TR=Trans[index[0:TR_max_iter]]
 
 
             #RANSAC
@@ -400,18 +336,6 @@ class yohoo:
                     recall_time=t_id
             #save:
             np.savez(f'{Save_dir}/{id0}-{id1}.npz',trans=best_trans_ransac, recalltime=recall_time)
-
-            #RANSAC TR
-            recall_time_TR=100000
-            best_trans_ransac_TR=np.eye(4)
-            for t_id_TR in range(Trans_TR.shape[0]):
-                T=Trans_TR[t_id_TR]
-                Rdiff,tdiff=self.transdiff(gt,T)
-                if (Rdiff<self.R_threshold) and (tdiff<self.t_threshold):
-                    best_trans_ransac_TR=T
-                    recall_time_TR=t_id_TR
-                    break
-            np.savez(f'{Save_dir_TR}/{id0}-{id1}.npz',trans=best_trans_ransac_TR,recalltime=recall_time_TR)
 
         R_pre_log(dataset,Save_dir)
 

@@ -50,29 +50,18 @@ for name,dataset in datasets.items():
 
     #YOHO-C
     estimator_c=name2estimator[config_c.estimator](config_c)
-    estimator_c.ransac(dataset,max_iter=1000,TR_max_iter=1000)
+    estimator_c.ransac(dataset,max_iter=1000)
 
     #YOHO-O
     estimator_o=name2estimator[config_o.estimator](config_o)
-    estimator_o.ransac(dataset,max_iter=1000,TR_max_iter=1000)
+    estimator_o.ransac(dataset,max_iter=1000)
 
     yohoc_result=np.load(f'{match_dir}/YOHO_C/1000iters/0-1.npz')
     yohoo_result=np.load(f'{match_dir}/YOHO_O/1000iters/0-1.npz')
     yohoc_trans=np.concatenate([yohoc_result['trans'],np.array([[0,0,0,1]])],axis=0)
     yohoo_trans=np.concatenate([yohoo_result['trans'],np.array([[0,0,0,1]])],axis=0)
     
-    yohoc_iters=np.load(f'{match_dir}/YOHO_C_TR/1000iters/0-1.npz')['recalltime']
-    yohoo_iters=np.load(f'{match_dir}/YOHO_O_TR/1000iters/0-1.npz')['recalltime']
-
     #visual
     target=dataset.get_pc_o3d('0')
     source=dataset.get_pc_o3d('1')
     draw_registration_result(source,target,np.eye(4))
-
-    #yohoc
-    print(f'YOHO-C get the true (Rerror<{config_c.TR_rerror}, terror<{config_c.TR_terror}) result with ',yohoc_iters,' iterations.')
-    draw_registration_result(source,target,yohoc_trans)
-
-    #yohoo
-    print(f'YOHO-O get the true (Rerror<{config_o.TR_rerror}, terror<{config_o.TR_terror}) result with ',yohoo_iters,' iterations.')
-    draw_registration_result(source,target,yohoo_trans)

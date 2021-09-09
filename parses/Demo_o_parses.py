@@ -58,10 +58,6 @@ Test_Args.add_argument("--worker_num",type=int,default=16,
 
 Test_Args.add_argument("--ransac_o_inlinerdist",type=float,default=0.07,
                         help="inliner distance threshold distance for YOHO-o")
-Test_Args.add_argument("--TR_rerror",type=float,default=3,
-                        help="The R error to determain the true transformation")
-Test_Args.add_argument("--TR_terror",type=float,default=0.1,
-                        help="The t error to determain the true transformation")
 Test_Args.add_argument("--RR_dist_threshold",type=float,default=0.2,
                         help="The t error to determain the true transformation") 
 

@@ -17,9 +17,8 @@ def make_non_exists_dir(directory):
         os.makedirs(directory)
 
 class Evaluator_PartI:
-    def __init__(self,cfg,max_iter,TR_max_iter):
+    def __init__(self,cfg,max_iter):
         self.max_iter=max_iter
-        self.TR_max_iter=TR_max_iter
         self.cfg=cfg
         self.extractor=name2extractor[self.cfg.extractor](self.cfg)
         self.matcher=name2matcher[self.cfg.matcher](self.cfg)
@@ -35,7 +34,7 @@ class Evaluator_PartI:
             self.extractor.Extract(dataset)
         self.matcher.match(dataset)
         self.drindex_extractor.PartI_Rindex(dataset)
-        self.estimator.ransac(dataset,self.max_iter,self.TR_max_iter)
+        self.estimator.ransac(dataset,self.max_iter)
 
     def Feature_match_Recall(self,dataset,ratio=0.05):
         if dataset.name[0:4]=='3dLo':
@@ -93,9 +92,8 @@ class Evaluator_PartI:
         print(msg)
                
 class Evaluator_PartII:
-    def __init__(self,cfg,max_iter,TR_max_iter):
+    def __init__(self,cfg,max_iter):
         self.max_iter=max_iter
-        self.TR_max_iter=TR_max_iter
         self.cfg=cfg
         self.extractor=name2extractor[self.cfg.extractor](self.cfg)
         self.matcher=name2matcher[self.cfg.matcher](self.cfg)
@@ -107,7 +105,7 @@ class Evaluator_PartII:
         self.matcher.match(dataset)
         self.drindex_extractor.PartI_Rindex(dataset)
         self.extractor.PartII_R_pre(dataset)
-        self.estimator.ransac(dataset,self.max_iter,self.TR_max_iter)
+        self.estimator.ransac(dataset,self.max_iter)
 
 
     def Feature_match_Recall(self,dataset,ratio=0.05):

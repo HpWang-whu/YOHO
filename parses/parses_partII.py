@@ -97,10 +97,6 @@ Test_Args.add_argument("--test_batch_size",type=int,default=1000,
                         help="TEST batch size")
 Test_Args.add_argument('--new_metric_success_dist',type=float,default=0.1,
                         help="new_metric_success_dist")
-Test_Args.add_argument('--TR_rerror',type=float,default=3,
-                        help="R threshold for TR")
-Test_Args.add_argument('--TR_terror',type=float,default=0.1,
-                        help="t threshold for TR")
 Test_Args.add_argument("--pca_threshold",type=float,default=0.03,
                         help="the plane points threshold")
 Test_Args.add_argument("--ransac_o_inlinerdist",type=float,default=0.09,

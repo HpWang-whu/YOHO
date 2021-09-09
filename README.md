@@ -5,7 +5,6 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 ## News
 
 - 2021.9.1 Paper is accessible on arXiv.[paper](https://arxiv.org/abs/2109.00182)
-- 2021.8.29 The code of the PointNet backbone YOHO is released, which is poorer but highly generalizable. [pn_yoho](https://github.com/HpWang-whu/YOHO-PN)
 - 2021.7.6 The code of the FCGF backbone YOHO is released. [Project page](https://hpwang-whu.github.io/YOHO/)
 
 ## Performance
@@ -65,6 +64,8 @@ We offer the origin train dataset containing the point clouds (.ply) and keypoin
 
 We offer the origin test datasets containing the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) here [3dmatch/3dLomatch](https://drive.google.com/file/d/1UzGBPce5VspD2YIj7zWrrJYjsImSEc-5/view?usp=sharing), [ETH](https://drive.google.com/file/d/1hyurp5EOzvWGFB0kOl5Qylx1xGelpxaQ/view?usp=sharing) and [WHU-TLS](https://drive.google.com/file/d/1QjlxIVMQPinNWt5LKhtaG9TTo2j3TGs_/view?usp=sharing).
 
+All datasets above and pretrained models can also be downloaded in [BaiduDisk](https://pan.baidu.com/s/13GoHmTJ-jqg1zBgRbIUmNQ)(Code:0di4).
+
 Please place the data to ```./data/origin_data``` for organizing the data structure as:
 
 - data
@@ -104,7 +105,7 @@ python Train.py --Part PartII
 ```
 
 We also offer the pretrained models in ```./model/PartI_train``` and ```./model/PartII_train```.
-If the model above is demaged by accident(Runtime error: storage has wrong size), we offer another copy here.[model](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing)
+If the model above is damaged by accident(Runtime error: storage has wrong size), we offer another copy here.[model](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing)
 
 ## Demo
 
