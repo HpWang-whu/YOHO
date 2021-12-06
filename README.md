@@ -178,10 +178,11 @@ All the results will be placed to ```./data/YOHO_FCGF```.
 
 ## Related Projects
 
-We thanks greatly for the FCGF, PerfectMatch, Predator and WHU-TLS for the backbone and the datasets.
+We sincerely thanks the excellent projects:
 
-- [FCGF](https://github.com/chrischoy/FCGF)
-- [3DSmoothNet](https://github.com/zgojcic/3DSmoothNet) 
-- [Predator](https://github.com/overlappredator/OverlapPredator) 
-- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)
+- [EMVN](http://github.com/daniilidis-group/emvn) for the group details;
+- [FCGF](https://github.com/chrischoy/FCGF) for the backbone;
+- [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for the 3DMatch and ETH dataset;
+- [Predator](https://github.com/overlappredator/OverlapPredator) for the 3DLoMatch dataset;
+- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)  for the WHU-TLS dataset.
 
