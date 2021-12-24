@@ -44,7 +44,7 @@ Specifically, The code has been tested with:
   export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
   python setup.py install --blas_include_dirs=${CONDA_PREFIX}/include --blas=openblas
   cd ..
-  ``` 
+  ```
   Or following official command installation:
   ```
   pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
@@ -70,7 +70,7 @@ The datasets and pretrained models have been uploaded to Google Cloud:
 - [3DMatch/3DLomatch](https://drive.google.com/file/d/1UzGBPce5VspD2YIj7zWrrJYjsImSEc-5/view?usp=sharing);
 - [ETH](https://drive.google.com/file/d/1hyurp5EOzvWGFB0kOl5Qylx1xGelpxaQ/view?usp=sharing);
 - [WHU-TLS](https://drive.google.com/file/d/1QjlxIVMQPinNWt5LKhtaG9TTo2j3TGs_/view?usp=sharing);
-- [Pretrained model](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing).
+- [Pretrained Weights](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing).
 
 Also, all datas above can be downloaded in [BaiduDisk](https://pan.baidu.com/s/13GoHmTJ-jqg1zBgRbIUmNQ)(Code:0di4).
 
@@ -169,7 +169,7 @@ The generalization results on the outdoor WHU-TLS dataset can be got by:
   python Test.py --Part PartI  --max_iter 1000 --dataset WHU-TLS --ransac_d 1 --tau_2 0.5 --tau_3 1 #YOHO-C on WHU-TLS
   python Test.py --Part PartII --max_iter 1000 --dataset WHU-TLS --ransac_d 1 --tau_2 0.5 --tau_3 1 #YOHO-O on WHU-TLS
   ```
-All the results will be placed to ```./data/YOHO_FCGF```.
+  All the results will be placed to ```./data/YOHO_FCGF```.
 
 
 ## Related Projects
