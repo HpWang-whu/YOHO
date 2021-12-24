@@ -1,3 +1,7 @@
+"""
+From https://github.com/chrischoy/FCGF for FCGF feature extraction.
+"""
+
 import torch
 import time
 import numpy as np

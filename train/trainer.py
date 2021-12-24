@@ -1,10 +1,13 @@
+"""
+Trainer class of PartI and PartII.
+"""
+
+
 import os
 import sys
 sys.path.append('..')
 import torch
-import datetime
 import numpy as np
-from torch.nn import DataParallel
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 from tqdm import tqdm

@@ -1,4 +1,7 @@
-#loss and validation
+"""
+Loss and validations.
+"""
+
 import torch
 import abc
 import utils.utils as utils

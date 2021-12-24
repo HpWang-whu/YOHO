@@ -1,10 +1,7 @@
-import os
-import copy
 import numpy as np
-import open3d as o3d
 from utils.utils_o3d import draw_registration_result
 import utils.dataset as Dataset
-from utils.utils import transform_points,evaluate_the_match
+from utils.utils import evaluate_the_match
 import parses.Demo_c_parses as parses_C
 import parses.Demo_o_parses as parses_O
 #extractor

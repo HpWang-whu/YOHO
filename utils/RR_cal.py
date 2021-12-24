@@ -5,7 +5,7 @@ Last modified: 30.11.2020
 """
 
 import numpy as np
-import os,sys,glob,torch,math
+import os,torch,math
 from collections import defaultdict
 import nibabel.quaternions as nq
 

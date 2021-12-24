@@ -1,12 +1,12 @@
-import os
-import time
-import torch
+"""
+Realize YOHO-C/O.
+"""
+
 import numpy as np
 from tqdm import tqdm
 from utils.r_eval import compute_R_diff
-from utils.utils import transform_points,SVDR,make_non_exists_dir,ransac_judge
+from utils.utils import transform_points,make_non_exists_dir
 from functools import partial
-import multiprocessing
 from multiprocessing import Pool
 
 def R_pre_log(dataset,save_dir):

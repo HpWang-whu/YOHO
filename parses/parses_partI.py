@@ -47,7 +47,7 @@ Train_Args.add_argument("--val_type",type=str,default="Val_partI",
                         help="val_type")
 Train_Args.add_argument("--loss_type",type=str,default="Batch_hard_Rindex_loss",
                         help="loss type")                        
-Train_Args.add_argument("--epochs",type=int,default=10,
+Train_Args.add_argument("--epochs",type=int,default=5,
                         help="num of epoches")
 Train_Args.add_argument("--worker_num",type=int,default=16,
                         help="the threads used for dataloader")
@@ -59,17 +59,17 @@ Train_Args.add_argument("--lr_init",type=float,default=0.0001,
                         help="The initial learning rate")
 Train_Args.add_argument("--lr_decay_rate",type=float,default=0.5,
                         help="the decay rate of the learning rate per epoch")
-Train_Args.add_argument("--lr_decay_step",type=float,default=1.8,
+Train_Args.add_argument("--lr_decay_step",type=float,default=1.6,
                         help="the decay step of the learning rate (how many epoches)")
-Train_Args.add_argument("--train_log_step",type=int,default=500,
+Train_Args.add_argument("--train_log_step",type=int,default=3000,
                         help="logger internal")
 
 #Validation Args
-Dataset_Args.add_argument("--val_pppair_list_fn",type=str,default=f'{base_dir}/data/YOHO_FCGF/Train_val_list/val_pc_pt.pkl',
+Dataset_Args.add_argument("--val_pppair_list_fn",type=str,default=f'{base_dir}/data/YOHO_FCGF/Train_val_list/val.pkl',
                         help="validation tuples (station,pc0,pc1,R_i,R_j,pt0,pt1)")
-Val_Args.add_argument("--val_interval",type=int,default=500,
+Val_Args.add_argument("--val_interval",type=int,default=6000,
                         help="the interval to validation")
-Val_Args.add_argument("--save_interval",type=int,default=500,
+Val_Args.add_argument("--save_interval",type=int,default=3000,
                         help="the interval to save the model")
 
 ############################################# Test ###################################################

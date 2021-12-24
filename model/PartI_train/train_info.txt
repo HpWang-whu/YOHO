@@ -1,4 +1,0 @@
-network: PartI_train
-dataset: Enhanced_train_dataset_PartI
-loss: Batch_hard_Rindex_loss
-lr: 0.0001 and become *0.5 pre 1.8 epoches

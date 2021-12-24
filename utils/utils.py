@@ -1,10 +1,14 @@
+"""
+Common functions used in the whole pipeline.
+"""
+
+
 import os
 import pickle
 import numpy as np
 import torch.nn as nn
 from collections import OrderedDict
 from tensorboardX import SummaryWriter
-from utils.r_eval import compute_R_diff
 
 def make_non_exists_dir(fn):
     if not os.path.exists(fn):
@@ -214,54 +218,11 @@ class Logger:
         with open(os.path.join(self.log_dir,f'{prefix}.txt'), 'a') as f:
             f.write(msg + '\n')
 
-
-def SVDR(beforerot,afterrot):# beforerot afterrot Scene2,Scene1
-    H=np.matmul(np.transpose(afterrot),beforerot)
-    U,Sigma,VT=np.linalg.svd(H)
-    return np.matmul(U,VT)
-
-
 def evaluate_the_match(kps0,kps1,matches,transform_gt,threshold=0.1):
     # evaluate the matching precision
     kpsm0=kps0[matches[:,0]]
     kpsm1=kps1[matches[:,1]]
     kpsm1_t=transform_points(kpsm1,transform_gt)
     dist=np.linalg.norm(kpsm0-kpsm1_t,2,1)
-    correct_ratio=np.mean(dist<threshold)
+    correct_ratio=np.mean(dist<threshold)#正确比例
     return correct_ratio
-
-
-def Threepps2Tran(kps0_init,kps1_init):
-    center0=np.mean(kps0_init,0,keepdims=True)
-    center1=np.mean(kps1_init,0,keepdims=True)
-    m = (kps1_init-center1).T @ (kps0_init-center0)
-    U,S,VT = np.linalg.svd(m)
-    rotation = VT.T @ U.T
-    offset = center0 - (center1 @ rotation.T)
-    transform=np.concatenate([rotation,offset.T],1)
-    return transform #3*4
-
-def norm(a,axis=-1):
-    return np.sqrt(np.sum(np.square(a),axis=axis))
-
-def ransac_judge(kps_m0,kps_m1):
-    perm=[1,2,0]
-    d0=norm(kps_m0-kps_m0[perm],axis=-1)
-    d1=norm(kps_m1-kps_m1[perm],axis=-1)
-    delta=abs(d0-d1)/(d0+d1+1e-6)
-    ok=True
-    t=0
-    for i in range(3):
-        if delta[i]>0.05:
-            ok=False
-            break
-    if ok:
-        t=Threepps2Tran(kps_m0,kps_m1)
-        delta=norm(kps_m0-transform_points(kps_m1,t),axis=-1)
-        for i in range(3):
-            if delta[i]>0.1:
-                ok=False
-                break
-    return ok,t
-
-    

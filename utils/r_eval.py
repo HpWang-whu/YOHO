@@ -1,5 +1,9 @@
+"""
+Rotation matrix <--> quaternion
+Difference between Rotations.
+"""
+
 import numpy as np
-import torch
 import math
 
 def quaternion_from_matrix(matrix, isprecise=False):

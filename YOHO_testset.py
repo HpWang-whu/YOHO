@@ -1,4 +1,8 @@
-import os
+"""
+Generate YOHO input for Testset.
+PC*60 rotations->FCGF backbone-> FCGF Group feature for PC keypoints.
+"""
+
 import time
 import numpy as np
 import argparse
@@ -10,8 +14,7 @@ from utils.utils import make_non_exists_dir
 from fcgf_model import load_model
 from knn_search import knn_module
 import MinkowskiEngine as ME
-from utils.pointcloud import make_open3d_point_cloud
-
+from utils.utils_o3d import make_open3d_point_cloud
 
 
 class FCGFDataset():

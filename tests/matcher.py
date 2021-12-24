@@ -1,9 +1,13 @@
+"""
+Point cloud matcher according to descriptor similarity and Matmul strategy.
+"""
+
+
 import os,sys
 sys.path.append('..')
 import numpy as np
 import torch
 import tqdm
-import time
 from utils.utils import make_non_exists_dir
 from knn_search import knn_module
 

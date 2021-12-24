@@ -1,13 +1,22 @@
-import os,sys
+"""
+Dataset class for organizing datasets with:
+Pointcloud + Pointcloud_o3d
+Keypointindex + Keypoint
+PCpairs + pairgt
+
+
+Train dataloader of PartI and PartII. 
+"""
+
+
+import os
 import numpy as np
-import random
 import abc
-import time
 
 import torch
 from torch.utils.data import Dataset
-from utils.r_eval import compute_R_diff,quaternion_from_matrix,matrix_from_quaternion
-from utils.utils import read_pickle, save_pickle, transform_points,random_rotation_matrix,SVDR,make_non_exists_dir
+from utils.r_eval import compute_R_diff,quaternion_from_matrix
+from utils.utils import read_pickle, make_non_exists_dir
 import open3d as o3d
 
 class EvalDataset(abc.ABC):
@@ -195,6 +204,7 @@ def get_dataset_name(dataset_name,origin_data_dir):
     if dataset_name=='3dmatch_train':
         datasets={}
         datasets['wholesetname']=f'{dataset_name}'
+        datasets['valscenes']=['sun3d-brown_bm_4-brown_bm_4','sun3d-harvard_c11-hv_c11_2','7-scenes-heads','rgbd-scenes-v2-scene_10','bundlefusion-office0','analysis-by-synthesis-apt2-kitchen']
         scenes=['bundlefusion-apt0', 'rgbd-scenes-v2-scene_02', 'bundlefusion-office1', 'sun3d-brown_cogsci_1-brown_cogsci_1', 'rgbd-scenes-v2-scene_06', 'analysis-by-synthesis-apt2-kitchen', 'rgbd-scenes-v2-scene_03', 'bundlefusion-apt1', 'sun3d-harvard_c8-hv_c8_3', 'bundlefusion-copyroom', 'sun3d-home_bksh-home_bksh_oct_30_2012_scan2_erika', 'rgbd-scenes-v2-scene_04', '7-scenes-pumpkin', 'rgbd-scenes-v2-scene_01', 'analysis-by-synthesis-office2-5a', 'sun3d-brown_bm_1-brown_bm_1', 'bundlefusion-apt2', 'sun3d-brown_cs_2-brown_cs2', 'bundlefusion-office2', 'sun3d-hotel_sf-scan1', 'sun3d-hotel_nips2012-nips_4', 'bundlefusion-office3', 'rgbd-scenes-v2-scene_09', 'rgbd-scenes-v2-scene_05', 'rgbd-scenes-v2-scene_07', '7-scenes-heads', 'sun3d-harvard_c3-hv_c3_1', 'rgbd-scenes-v2-scene_08', 'sun3d-mit_76_417-76-417b', 'sun3d-mit_32_d507-d507_2', 'sun3d-mit_46_ted_lab1-ted_lab_2', '7-scenes-chess', 'rgbd-scenes-v2-scene_10', 'sun3d-harvard_c11-hv_c11_2', 'analysis-by-synthesis-apt2-living', 'sun3d-mit_w20_athena-sc_athena_oct_29_2012_scan1_erika', 'analysis-by-synthesis-apt1-living', 'analysis-by-synthesis-apt1-kitchen', 'sun3d-mit_dorm_next_sj-dorm_next_sj_oct_30_2012_scan1_erika', '7-scenes-stairs', 'sun3d-brown_bm_4-brown_bm_4', 'bundlefusion-office0', 'sun3d-harvard_c6-hv_c6_1', 'rgbd-scenes-v2-scene_14', 'rgbd-scenes-v2-scene_12', 'analysis-by-synthesis-office2-5b', 'analysis-by-synthesis-apt2-luke', '7-scenes-office', 'sun3d-harvard_c5-hv_c5_1', 'sun3d-brown_cs_3-brown_cs3', '7-scenes-fire', 'rgbd-scenes-v2-scene_11', 'analysis-by-synthesis-apt2-bed', 'rgbd-scenes-v2-scene_13']
         stationnums=[85, 8, 57, 28, 10, 9, 8, 84, 10, 44, 96, 8, 54, 8, 14, 65, 38, 52, 34, 92, 62, 37, 7, 11, 9, 18, 19, 9, 77, 54, 75, 54, 7, 8, 10, 70, 15, 11, 26, 24, 32, 60, 15, 6, 7, 17, 19, 90, 20, 34, 36, 6, 10, 4]
         for i in range(len(scenes)):

@@ -1,13 +1,23 @@
+"""
+Evaluator class for the whole pipeline of YOHO-C/O containing:
+(1) Given FCGF group feature from ./YOHO_testset.py.
+(2) PartI: FCGF group feature-->YOHO-Desc                       extractor
+(3)        YOHO-Desc-->inv-->matmul matcher-->pps               matcher
+(4)        pps+YOHO-Desc-->coarse rotation                      extractor
+(5)        YOHO-C                                               estimator
+(6) PartII:pps+YOHO-Desc+coarse_rotation-->refined rotation     extractor
+(9)        YOHO-O                                               estimator
+or namely, tester.
+"""
+
+
 import os,sys
-import time
 sys.path.append('..')
 import numpy as np
-import open3d as o3d
 from tqdm import tqdm
 import utils.RR_cal as RR_cal
-from utils.dataset import EvalDataset,get_dataset
-from utils.utils import transform_points, read_pickle
-from utils.r_eval import compute_R_diff
+from utils.dataset import get_dataset
+from utils.utils import transform_points
 from tests.extractor import name2extractor,extractor_dr_index
 from tests.matcher import name2matcher
 from tests.estimator import name2estimator
@@ -63,7 +73,6 @@ class Evaluator_PartI:
 
 
     def eval(self):
-        correct_ratios_wholeset={}
         datasets=get_dataset(self.cfg,False)
         FMRS=[]
         all_pair_fmrs=[]
@@ -135,9 +144,6 @@ class Evaluator_PartII:
 
 
     def eval(self):
-        correct_ratios_wholeset={}
-        Rtpres=[]
-        Rtgts=[]
         datasets=get_dataset(self.cfg,False)
         
         FMRS=[]

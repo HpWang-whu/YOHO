@@ -1,10 +1,10 @@
+"""
+Model in Pytorch of YOHO.
+"""
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import numpy as np
-import utils
-import parses
-from utils.r_eval import quaternion_from_matrix,matrix_from_quaternion,compute_R_diff
 import parses.parses_partI as parsesI
 
 

@@ -1,15 +1,20 @@
+"""
+Feature extractor for feature extraction:
+(1)extractor_PartI: YOHO group feature;
+(2)extractor_dr_index: YOHO group feature pair-->coarse rotation(index in 60);
+(3)extractor_PartII: Residual rotation.
+"""
+
+
+
 import os,sys
 sys.path.append('..')
-import time
 import torch
 import numpy as np
-import open3d as o3d
 from tqdm import tqdm
-from utils.r_eval import compute_R_diff,matrix_from_quaternion
-from torch.utils.data import DataLoader
-from utils.utils import transform_points, read_pickle,make_non_exists_dir,to_cuda
+from utils.r_eval import matrix_from_quaternion
+from utils.utils import make_non_exists_dir,to_cuda
 from utils.network import name2network
-from tests.estimator import name2estimator
 
 
 class extractor_PartI():
