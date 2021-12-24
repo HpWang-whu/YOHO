@@ -65,12 +65,12 @@ Specifically, The code has been tested with:
   ```
 
 ## Dataset & Pretrained model
-The datasets and pretrained models have been uploaded to Google Cloud:
+The datasets and pretrained weights have been uploaded to Google Cloud:
 - [3DMatch_train](https://drive.google.com/file/d/1mfnGL8pRvc6Rw6m6YnvNKdbpGxGJ081G/view?usp=sharing);
 - [3DMatch/3DLomatch](https://drive.google.com/file/d/1UzGBPce5VspD2YIj7zWrrJYjsImSEc-5/view?usp=sharing);
 - [ETH](https://drive.google.com/file/d/1hyurp5EOzvWGFB0kOl5Qylx1xGelpxaQ/view?usp=sharing);
 - [WHU-TLS](https://drive.google.com/file/d/1QjlxIVMQPinNWt5LKhtaG9TTo2j3TGs_/view?usp=sharing);
-- [Pretrained Weights](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing).
+- [Pretrained Weights](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing). (Already added to the main branch.)
 
 Also, all datas above can be downloaded in [BaiduDisk](https://pan.baidu.com/s/13GoHmTJ-jqg1zBgRbIUmNQ)(Code:0di4).
 
@@ -94,7 +94,7 @@ Datasets above contain the point clouds (.ply) and keypoints (.txt, 5000 per poi
         - Keypoints
         - PointCloud
 
-Pretrained models we offer include FCGF Backbone, Part I and Part II ones. Please place the three subfolders to ```./model```for organizing the structure as:
+Pretrained weights we offer include FCGF Backbone, Part I and Part II, which have been added to the main branch and organized following the structure as:
 - model
   - Backbone
     - best_bal_checkpoint.pth
@@ -130,7 +130,7 @@ To evalute YOHO on 3DMatch and 3DLoMatch:
   ```
   python YOHO_testset.py --dataset 3dmatch --voxel_size 0.025
   ```
-- Eval the results:
+- Evaluate the results:
   ```
   python Test.py --Part PartI  --max_iter 1000 --dataset 3dmatch    #YOHO-C on 3DMatch
   python Test.py --Part PartI  --max_iter 1000 --dataset 3dLomatch  #YOHO-C on 3DLoMatch
@@ -150,7 +150,7 @@ The generalization results on the outdoor ETH dataset can be got by:
   - Change the parameter ```batch_size``` in ```YOHO_testset.py-->batch_feature_extraction()-->loader``` from 4 to 1 
   - Carry out the command scene by scene by controlling the scene processed now in ```utils/dataset.py-->get_dataset_name()-->if name==ETH```
 
-- Eval the results:
+- Evaluate the results:
   ```
   python Test.py --Part PartI  --max_iter 1000 --dataset ETH --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-C on ETH
   python Test.py --Part PartII --max_iter 1000 --dataset ETH --ransac_d 0.2 --tau_2 0.2 --tau_3 0.5 #YOHO-O on ETH
@@ -164,7 +164,7 @@ The generalization results on the outdoor WHU-TLS dataset can be got by:
   ```
   python YOHO_testset.py --dataset WHU-TLS --voxel_size 0.8
   ```
-- Eval the results:
+- Evaluate the results:
   ```
   python Test.py --Part PartI  --max_iter 1000 --dataset WHU-TLS --ransac_d 1 --tau_2 0.5 --tau_3 1 #YOHO-C on WHU-TLS
   python Test.py --Part PartII --max_iter 1000 --dataset WHU-TLS --ransac_d 1 --tau_2 0.5 --tau_3 1 #YOHO-O on WHU-TLS
@@ -173,7 +173,7 @@ The generalization results on the outdoor WHU-TLS dataset can be got by:
 
 
 ## Related Projects
-We sincerely thanks the excellent projects:
+We sincerely thank the excellent projects:
 - [EMVN](http://github.com/daniilidis-group/emvn) for the group details;
 - [FCGF](https://github.com/chrischoy/FCGF) for the backbone;
 - [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for the 3DMatch and ETH dataset;
