@@ -72,36 +72,37 @@ The datasets and pretrained weights have been uploaded to Google Cloud:
 - [WHU-TLS](https://drive.google.com/file/d/1QjlxIVMQPinNWt5LKhtaG9TTo2j3TGs_/view?usp=sharing);
 - [Pretrained Weights](https://drive.google.com/file/d/1J-nkut2A66fyOQu0B0723yCfRiJLSG4O/view?usp=sharing). (Already added to the main branch.)
 
-Also, all datas above can be downloaded in [BaiduDisk](https://pan.baidu.com/s/13GoHmTJ-jqg1zBgRbIUmNQ)(Code:0di4).
+Also, all data above can be downloaded in [BaiduDisk](https://pan.baidu.com/s/13GoHmTJ-jqg1zBgRbIUmNQ)(Code:0di4).
 
-Datasets above contain the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) files. Please place the data to ```./data/origin_data``` for organizing the data structure as:
-- data
-  - origin_data
-    -  3dmatch
-          - sun3d-home_at-home_at_scan1_2013_jan_1
-              - Keypoints
-              - PointCloud
-    - 3dmatch_train
-      - bundlefusion-apt0
-        - Keypoints
-        - PointCloud
-    - ETH
-      - wood_autumn
-        - Keypoints
-        - PointCloud
-    - WHU-TLS
-      - Park
-        - Keypoints
-        - PointCloud
+Datasets above contain the point clouds (.ply) and keypoints (.txt, 5000 per point cloud) files. Please place the data to ```./data/origin_data``` following the example data structure as:
 
-Pretrained weights we offer include FCGF Backbone, Part I and Part II, which have been added to the main branch and organized following the structure as:
-- model
-  - Backbone
-    - best_bal_checkpoint.pth
-  - PartI_train
-    - model_best.pth
-  - PartII_train
-    - model_best.pth
+```
+data/
+├── origin_data/
+    ├── 3dmatch/
+    	└── kitchen/
+            ├── PointCloud/
+            	├── cloud_bin_0.ply
+            	├── gt.log
+            	└── gt.info
+            └── Keypoints/
+            	└── cloud_bin_0Keypoints.txt
+    ├── 3dmatch_train/
+    ├── ETH/
+    └── WHU-TLS/
+```
+
+Pretrained weights we offer include FCGF Backbone, Part I and Part II. Which have been added to the main branch and organized following the structure as:
+
+```
+model/
+├── Backbone/
+	└── best_bal_checkpoint.pth
+├── PartI_train/
+	└── model_best.pth
+└── PartII_train/
+	└── model_best.pth
+```
 
 
 ## Train
@@ -141,7 +142,7 @@ To evalute YOHO on 3DMatch and 3DLoMatch:
 
 
 ## Generalize to the ETH dataset
-The generalization results on the outdoor ETH dataset can be got by:
+The generalization results on the outdoor ETH dataset can be got as follows:
 - Prepare the testset: 
   ```
   python YOHO_testset.py --dataset ETH --voxel_size 0.15
@@ -159,7 +160,7 @@ The generalization results on the outdoor ETH dataset can be got by:
 
 
 ## Generalize to the WHU-TLS dataset
-The generalization results on the outdoor WHU-TLS dataset can be got by:
+The generalization results on the outdoor WHU-TLS dataset can be got as follows:
 - Prepare the testset:
   ```
   python YOHO_testset.py --dataset WHU-TLS --voxel_size 0.8
