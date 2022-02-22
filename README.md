@@ -9,10 +9,10 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - 2021-07-06: YOHO using FCGF backbone is released.
 
 ## Performance
-<img src="figures/performance.jpg" alt="Performance" style="zoom:10%;" />
+<img src="others/performance.jpg" alt="Performance" style="zoom:10%;" />
 
 ## Network Structure
-<img src="figures/net.jpg" alt="Network" style="zoom:50%;" />
+<img src="others/net.jpg" alt="Network" style="zoom:50%;" />
 
 ## Requirements
 Here we offer the FCGF backbone YOHO. Thus FCGF requirements need to be met:
@@ -56,7 +56,7 @@ Specifically, The code has been tested with:
   pip install -r requirements.txt
   ```
 
-- Finally, compile the CUDA based KNN searcher:
+- Finally, compile the [CUDA based KNN searcher](https://github.com/vincentfpgarcia/kNN-CUDA):
   ```
   cd knn_search/
   export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
