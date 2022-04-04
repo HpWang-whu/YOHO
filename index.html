@@ -1,112 +1,158 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="./css/style.css">
-    <title>You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors
-</title>
+    <title>You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
   </head>
-  <body>
-    <header class="page-header" role="banner">
-      <h1 class="project-name">You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</h1>
-      <div class="btn-group-flex">
-        <a href="https://arxiv.org/abs/2109.00182" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Paper</a>
-        <a href="https://github.com/HpWang-whu/YOHO" class="btn"><img src="./pics/paper.svg" class="icon-paper"/>Code/Pretrained Model/Dataset</a>
+
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2> You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors</h2>
+            <h4 style="color:#5a6268;">arXiv 2021</h4>
+            <hr>
+            <h6> <a href="https://scholar.google.com.hk/citations?hl=zh-CN&user=YAdDCr0AAAAJ" target="_blank">Haiping Wang</a><sup>1</sup>, 
+                <a href="https://liuyuan-pal.github.io/" target="_blank">Yuan Liu</a><sup>*,2</sup>,
+                <a href="https://scholar.google.com/citations?hl=zh-CN&user=DZsF2oIAAAAJ" target="_blank">Zhen Dong</a><sup>&dagger;,1</sup>, 
+                <a href="https://www.cs.hku.hk/people/academic-staff/wenping" target="_blank">Wenping Wang</a><sup>3</sup>,
+                <a href="https://scholar.google.com/citations?user=TJkm8igAAAAJ&hl=zh-CN" target="_blank">Bisheng Yang</a><sup>&dagger;,1</sup>
+            
+              <p>
+              <sup>1</sup>Wuhan University &nbsp;&nbsp; 
+              <sup>2</sup>The University of Hong Kong &nbsp;&nbsp; 
+              <sup>3</sup>Texas A&M University &nbsp;&nbsp; 
+
+              <sup>*</sup>The first two authors contribute equally. &nbsp;&nbsp; 
+              <sup>&dagger;</sup>Corresponding authors. &nbsp;&nbsp; 
+              </p>
+            <div class="row justify-content-center">
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://arxiv.org/abs/2109.00182" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Paper</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/HpWang-whu/YOHO" role="button"  target="_blank">
+                    <i class="fa fa-github-alt"></i> Code</a> </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="authors">
-        <p class="authors__name"><a href="https://scholar.google.com.hk/citations?hl=zh-CN&user=YAdDCr0AAAAJ" style='color:white'>Haiping Wang</a><sup>*,1</sup></a></p>,
-        <p class="authors__name"><a href="https://liuyuan-pal.github.io/" style='color:white'>Yuan Liu</a><sup>*,2</sup></a></p>,
-        <p class="authors__name"><a href="https://scholar.google.com/citations?hl=zh-CN&user=DZsF2oIAAAAJ" style='color:white'>Zhen Dong</a><sup>&dagger;,1</sup></a></p>,
-        <p class="authors__name"><a href="https://www.cs.hku.hk/people/academic-staff/wenping" style='color:white'> Wenping Wang</a><sup>2,3</sup></a></p>,
-        <p class="authors__name"><a href="https://scholar.google.com/citations?user=TJkm8igAAAAJ&hl=zh-CN" style='color:white'>Bisheng Yang</a><sup>&dagger;,1</sup></a></p>
+    </div>
+  </section>
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+          <hr style="margin-top:0px">
+          <p class="text-justify">  </p>
+          <p class="text-justify"> In this paper, we propose a novel local descriptor-based framework, called You Only Hypothesize Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation-equivariant part, which enables us to estimate the registration from just one correspondence hypothesis. Such property reduces the searching space for feasible transformations, thus greatly improving both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on four widely-used datasets, the 3DMatch/3DLoMatch datasets, the ETH dataset and the WHU-TLS dataset. </p>
+          <hr style="margin-top:0px">
+            <figure align="center"></figure>
+              <p align="center"><img src="./yoho/teaser.jpg" width="1100"/>
+              </p>
+            </figure>
+              <!-- <br><br> -->
+          <p class="text-justify">  </p>
+          <p class="text-caption"> Fig.1. (a) The key idea of YOHO is to utilize orientations of local patches to find the global alignment of partial scans. (b) YOHO is able to automatically integrate partial scans into a completed scene, even these partial scans contain lots of noise and significant point density variations. (c) A figure of successful registration rate and average time cost to align a scan pair on the 3DMatch/3DLoMatch dataset. YOHO is more efficient and accurate than previous methods. </p>
+        </div>
       </div>
-      <div class="affiliations">
-        <p class="affiliation__name"><sup>1</sup>Wuhan University</p>,
-        <p class="affiliation__name"><sup>2</sup>The University of Hong Kong</p>,
-        <p class="affiliation__name"><sup>3</sup>Texas A&M University</p>
+    </div>
+  </section>
+  <br>
+
+  <!-- Qualitative Results -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Quantative Results</h3>
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Indoor: 3DMatch/3DLoMatch; Outdoor: ETH/WHU-TLS</h4>
+            <figure align="center"></figure>
+            <p align="center"><img src="./yoho/results.jpg" width="1100"/>
+            </p>
+          </figure>
+            <!-- <br><br> -->
+        <p class="text-justify">  </p>
+        <p class="text-caption"> Fig.2. Quantative results of YOHO trained on 3DMatch-train (Indoor). (a) Comparison with feature-based methods on the indoor 3DMatch/3DLoMatch datasets. (b) Comparison with direct registration methods on 3DMatch/3DLoMatch. (c) Time consuming on 3DMatch/3DLoMatch. (d/e) Direct generaliztion to outdoor ETH dataset. (f) Direct generaliztion to outdoor WHU-TLS dataset. It can be observed that YOHO consistently achieves SOTA performances with less time consuming.</p>
+        
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Evaluation on rotation-invariant/equivariant parts of YOHO descriptors</h4>
+            <figure align="center"></figure>
+            <p align="center"><img src="./yoho/eval.jpg" width="1100"/>
+            </p>
+          </figure>
+            <!-- <br><br> -->
+        <p class="text-justify">  </p>
+        <p class="text-caption"> Fig.3. (a) The rotation invariant part of YOHO-Desc is more robust to sampling and noise. (b) The usage of rotation equivariant part of YOHO-Desc brings much faster convergence in RANSAC.</p>
+
+
+        </div>
       </div>
-      <div class="affiliations">
-        <p class="affiliation__name"><sup>*</sup>The first two authors contribute equally</p>,
-        <p class="affiliation__name"><sup>&dagger;</sup>Corresponding authors</p>
+    </div>
+  </section>
+  <br>
+
+  <!-- Cross-Appearance Hallucination -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Qualitative Results</h3>
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Example results on 3DMatch/3DLoMatch/ETH</h4>
+            <figure align="center"></figure>
+            <p align="center"><img src="./yoho/visual.jpg" width="1100"/>
+            </p>
+          </figure>
+            <!-- <br><br> -->
+        <p class="text-justify">  </p>
+        <p class="text-caption"> Fig.4.  (Left) Qualitative comparison with baselines. (Right) Completed scenes by YOHO and some input partial scans.</p>
+
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Generalization to outdoor scene - WHU-TLS(Park)</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="yoho/park.mp4" type="video/mp4">
+            </video>
+            </video>
+        </div>
       </div>
+    </div>
+  </section>
+  <br>
 
-    </header>
+  <!-- citing -->
+  <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+          <hr style="margin-top:0px">
+              <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>@article{wang2021you,
+  title={You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors},
+  author={Wang, Haiping and Liu, Yuan and Dong, Zhen and Wang, Wenping and Yang, Bisheng},
+  journal={arXiv preprint arXiv:2109.00182},
+  year={2021}
+}</code></pre>
+          <hr>
+      </div>
+    </div>
+  </div>
 
-    <main id="content" class="main-content" role="main">
-      <p><img src="./pics/RR-T.jpg" alt=""  width="700"/></p>
+  <footer class="text-center" style="margin-bottom:10px">
+      Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> for the website template.
+  </footer>
 
-<h2 id="Abstract">Abstract</h2>
-
-<p>In this paper, we propose a novel local descriptor-based framework, called You Only Hypothesize Once (YOHO), for the registration of two unaligned point clouds. In contrast to most existing local descriptors which rely on a fragile local reference frame to gain rotation invariance, the proposed descriptor achieves the rotation invariance by recent technologies of group equivariant feature learning, which brings more robustness to point density and noise. Meanwhile, the descriptor in YOHO also has a rotation equivariant part, which enables us to estimate the registration from just one correspondence hypothesis. Such property reduces the searching space for feasible transformations, thus greatly improves both the accuracy and the efficiency of YOHO. Extensive experiments show that YOHO achieves superior performances with much fewer needed RANSAC iterations on four widely-used datasets, the 3DMatch/3DLoMatch datasets, the ETH dataset and the WHU-TLS dataset.</p>
-
-
-
-<h2 id="Network Structure">Network Structure</h2>
-
-
-<figure align="center">
-  <p align="center"><img src="./pics/net.jpg" width="1000" />
-  </p>
-</figure>
-
-
-
-
-<h2 id="Quantative Results">Quantative Results</h2>
-
-
-<figure align="center">
-  <p align="center"><img src="./pics/maintable.jpg" width="1000" />
-  </p>
-</figure>
-
-
-<h2 id="Qualitative Results">Qualitative Results</h2>
-
-
-<figure align="center">
-  <p align="center"><img src="./pics/visualresults.jpg" width="1200" />
-  </p>
-</figure>
-
-
-<h2 id="Short video">How many RANSAC iterations are needed?</h2>
-<p align="center">
-    <video width="500" controls>
-        <source src="./pics/3dmatch.mp4" type="video/mp4"> 
-    </video>
-    <!-- <img src="./images/Column_surface.gif" width="700" /> -->
-  </p>
-
-  <p align="center">
-    <video width="500" controls>
-        <source src="./pics/3dlo.mp4" type="video/mp4"> 
-    </video>
-  </p>
-
-  <p align="center">
-    <video width="500" controls>
-        <source src="./pics/ETH.mp4" type="video/mp4"> 
-    </video>
-  </p>
-
-
-<h2 id="bibtex">BibTeX</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-@misc{wang2021hypothesize,
-      title={You Only Hypothesize Once: Point Cloud Registration with Rotation-equivariant Descriptors}, 
-      author={Haiping Wang and Yuan Liu and Zhen Dong and Wenping Wang and Bisheng Yang},
-      year={2021},
-      eprint={2109.00182},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
-</code></pre></div></div>
-
-    </main>
-  </body>
+</body>
 </html>
