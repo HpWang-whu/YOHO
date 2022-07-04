@@ -107,9 +107,9 @@ class Trainer_partI:
                 log_info={}
                 outputs=self.network(train_data)
                 loss=self.loss(outputs)
-                wholeloss+=loss
                 loss.backward()
                 self.optimizer.step()
+                wholeloss+=loss.detach()
 
                 if (step+1) % self.cfg.train_log_step == 0:
                     loss_info={'loss':wholeloss/self.cfg.train_log_step}
@@ -232,9 +232,9 @@ class Trainer_partII:
                 pre=outputs['quaternion_pre']
                 gt=torch.squeeze(train_data['deltaR'])
                 loss=self.loss(pre,gt)
-                wholeloss+=loss
                 loss.backward()
                 self.optimizer.step()
+                wholeloss+=loss.detach()
                 
                 if (step+1) % self.cfg.train_log_step == 0:
                     loss_info={'loss':wholeloss/self.cfg.train_log_step}

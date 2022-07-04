@@ -44,8 +44,8 @@ Here we describe how to customize YOHO to apply the group processing pipeline ac
   Here we utilize FCGF backbone and train with new dataset ```DS_train```:
   - Retrain the FCGF with  ```DS_train``` according to [FCGF](https://github.com/chrischoy/FCGF) but limit the random rotation range in trainset to less than 50deg.
   - Replace the model in ./model/Backbone to your owns.
-  - Prepare the ```DS_train``` as the data structure above and log it to ```utils/dataset-->get_dataset_name()``` same as above and identify the scenes for valization(same as ```if name=='3dmatch_train'```)
-  - Deside the voxel size ```v``` for FCGF backbone and prepare the trainset for YOHO 
+  - Prepare the ```DS_train``` as the data structure above and log it to ```utils/dataset-->get_dataset_name()``` same as above and identify the scenes for valization(same as ```if name=='3dmatch_train'```).
+  - Deside the voxel size ```v``` for FCGF backbone and prepare the trainset for YOHO.
   - Execute the train process as the command in the main repo. 
 
 
