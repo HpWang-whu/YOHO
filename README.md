@@ -5,7 +5,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - [Project page](https://hpwang-whu.github.io/YOHO/).
 
 ## News
-- 2021-06-30: YOHO is accepted by ACM MM 2022! 
+- 2022-06-30: YOHO is accepted by ACM MM 2022! 
 - 2021-09-01: The Preprint Paper is accessible on arXiv.
 - 2021-07-06: YOHO using FCGF backbone is released
 
@@ -184,6 +184,6 @@ We sincerely thank the excellent projects:
 - [3DMatch](https://github.com/andyzeng/3dmatch-toolbox) for the 3DMatch dataset;
 - [Predator](https://github.com/overlappredator/OverlapPredator) for the 3DLoMatch dataset;
 - [ETH](https://projects.asl.ethz.ch/datasets/doku.php?id=laserregistration:laserregistration) for the ETH dataset;
-- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)  for the WHU-TLS dataset.
-- [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for organizing the 3DMatch and ETH dataset;
+- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)  for the WHU-TLS dataset;
+- [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for organizing the 3DMatch and ETH dataset.
 
