@@ -178,11 +178,12 @@ class trainset_create():
                 AllRs=[]
                 AllR_indexs=[]
                 AlldeltaRs=[]
+                R_gt = dataset.get_transform(pc0,pc1)[0:3,0:3]
                 for Ri_id in range(Feats0_R.shape[0]):
                     for Rj_id in range(Feats1_R.shape[0]):
                         R_i=Feats0_R[Ri_id]
                         R_j=Feats1_R[Rj_id]
-                        R=R_j@R_i.T
+                        R=R_j@R_gt.T@R_i.T # from pc0 to pc1
                         true_idx=self.R2DR_id(R)
                         delR=self.DeltaR(R,true_idx)
                         AllRs.append(R[None,:,:])

@@ -5,9 +5,10 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - [Project page](https://hpwang-whu.github.io/YOHO/).
 
 ## News
-- 2021-06-30: YOHO is accepted by ACM MM 2022! 
+- 2023-02-05: YOHO has been extended to IEEE TPAMI 2023! :tada: :tada: [RoReg](https://github.com/HpWang-whu/RoReg)
+- 2022-06-30: YOHO is accepted by ACM MM 2022! 
 - 2021-09-01: The Preprint Paper is accessible on arXiv.
-- 2021-07-06: YOHO using FCGF backbone is released
+- 2021-07-06: YOHO using FCGF backbone is released.
 
 ## Teaser
 
@@ -172,18 +173,34 @@ The generalization results on the outdoor WHU-TLS dataset can be got as follows:
   ```
   All the results will be placed to ```./data/YOHO_FCGF```.
 
-## Customize YOHO according to your needs
+## Customize YOHO according to your own needs
 
-To test YOHO on other datasets, or to implement YOHO using other backbones according to your needs, please refer to ```./others/Readme.md```
+To test YOHO on other datasets, or to implement YOHO using other backbones according to your own needs, please refer to [Here](otheres/../README.md).
 
+
+
+## Citation
+
+Please consider citing YOHO if this program benefits your project
+
+```
+@inproceedings{wang2022you,
+  title={You only hypothesize once: Point cloud registration with rotation-equivariant descriptors},
+  author={Wang, Haiping and Liu, Yuan and Dong, Zhen and Wang, Wenping},
+  booktitle={Proceedings of the 30th ACM International Conference on Multimedia},
+  pages={1630--1641},
+  year={2022}
+}
+```
 
 ## Related Projects
+Welcome to take a look at the homepage of our research group [WHU-USI3DV](https://github.com/WHU-USI3DV)!
 We sincerely thank the excellent projects:
 - [EMVN](http://github.com/daniilidis-group/emvn) for the group details;
 - [FCGF](https://github.com/chrischoy/FCGF) for the backbone;
 - [3DMatch](https://github.com/andyzeng/3dmatch-toolbox) for the 3DMatch dataset;
 - [Predator](https://github.com/overlappredator/OverlapPredator) for the 3DLoMatch dataset;
 - [ETH](https://projects.asl.ethz.ch/datasets/doku.php?id=laserregistration:laserregistration) for the ETH dataset;
-- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)  for the WHU-TLS dataset.
-- [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for organizing the 3DMatch and ETH dataset;
+- [WHU-TLS](https://www.sciencedirect.com/science/article/pii/S0924271620300836)  for the WHU-TLS dataset;
+- [PerfectMatch](https://github.com/zgojcic/3DSmoothNet) for organizing the 3DMatch and ETH dataset.
 
