@@ -5,7 +5,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 - [Project page](https://hpwang-whu.github.io/YOHO/).
 
 ## News
-- 2023-02-05: YOHO has been extended to IEEE TPAMI 2023! :tada: :tada: [RoReg](https://github.com/HpWang-whu/RoReg)
+- 2023-02-05: YOHO has been extended to IEEE TPAMI 2023! :tada: :tada: [[RoReg]](https://github.com/HpWang-whu/RoReg)
 - 2022-06-30: YOHO is accepted by ACM MM 2022! 
 - 2021-09-01: The Preprint Paper is accessible on arXiv.
 - 2021-07-06: YOHO using FCGF backbone is released.
@@ -194,7 +194,7 @@ Please consider citing YOHO if this program benefits your project
 ```
 
 ## Related Projects
-Welcome to take a look at the homepage of our research group [WHU-USI3DV](https://github.com/WHU-USI3DV)!
+Welcome to take a look at the homepage of our research group [WHU-USI3DV](https://github.com/WHU-USI3DV) !
 
 We sincerely thank the excellent projects:
 - [EMVN](http://github.com/daniilidis-group/emvn) for the group details;
