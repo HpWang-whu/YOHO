@@ -8,7 +8,7 @@ ACM Multimedia 2022
 </h3>
 
 <p align="center">
-<a href="https://scholar.google.com.hk/citations?hl=zh-CN&user=YAdDCr0AAAAJ" target="_blank">Haiping Wang</a><sup>1</sup>, 
+<a href="https://hpwang-whu.github.io/" target="_blank">Haiping Wang</a><sup>1</sup>, 
 <a href="https://liuyuan-pal.github.io/" target="_blank">Yuan Liu</a><sup>*,2</sup>,
 <a href="https://scholar.google.com/citations?hl=zh-CN&user=DZsF2oIAAAAJ" target="_blank">Zhen Dong</a><sup>&dagger;,1</sup>, 
 <a href="https://www.cs.hku.hk/people/academic-staff/wenping" target="_blank">Wenping Wang</a><sup>3</sup>
