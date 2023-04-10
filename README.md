@@ -143,7 +143,7 @@ python Train.py --Part PartI
 python Train.py --Part PartII
 ```
 
-## Demo
+## 🔦 Demo
 With the Pretrained/self-trained models, you can try YOHO with:
 ```
 python YOHO_testset.py --dataset demo
