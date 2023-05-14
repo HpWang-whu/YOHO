@@ -26,6 +26,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 - [Preprint paper](https://arxiv.org/abs/2109.00182).
 - [Project page](https://hpwang-whu.github.io/YOHO/).
+- [Video](https://youtu.be/uIRzqR8dSaA).
 
 
 ## 🆕 News
