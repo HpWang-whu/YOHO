@@ -30,6 +30,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 
 ## 🆕 News
+- 2023-12-23: Quite simple scripts for YOHO/FCGF feature extraction on a give point cloud is uploaded. Check how to use it at [here](others/README.md).
 - 2023-02-28: A multiview registration mehtod [SGHR](https://github.com/WHU-USI3DV/SGHR) utilizing YOHO is accepted by CVPR 2023! 🎉🎉
 - 2023-02-05: YOHO has been extended to IEEE TPAMI 2023, a.k.a, [RoReg](https://github.com/HpWang-whu/RoReg)! 🎉🎉
 - 2022-06-30: YOHO is accepted by ACM MM 2022! 🎉🎉
@@ -199,9 +200,17 @@ The generalization results on the outdoor WHU-TLS dataset can be got as follows:
   ```
   All the results will be placed to ```./data/YOHO_FCGF```.
 
+### You have a point cloud file(.ply/.pcd), and you want to extract FCGF or YOHO features.
+  I provide two quite simple scripts in ```simple_yoho``` but I have not fully checked.
+  - ```fcgf_feat.py``` can be used for FCGF feature extraction, the output is a set of down sampled points and their FCGF features, but you need to download the [orignal checkpoints](https://github.com/chrischoy/FCGF) and set the corresponding file path to ```pth``` in  ```fcgf_feat.py```.
+  - ```yoho_extract.py``` can be used for YOHO feature extraction, the output is 5000 randomly sampled keypoints and their corresponding yoho features.
+  - **NOTE:** a key parameter you should carefully set for both algos is ```voxel_size```:
+    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scene, just set it to 0.025 is always ok.)
+    - voxel_size should be set to the same for the source and target pcs.
+
 ## 📏 Customize YOHO according to your own needs
 
-To test YOHO on other datasets, or to implement YOHO using other backbones according to your own needs, please refer to [Here](otheres/../README.md).
+To test YOHO on other datasets, or to implement YOHO using other backbones according to your own needs, please refer to [Here](others/README.md).
 
 
 

@@ -1,5 +1,13 @@
 ## Customize YOHO according to your needs
 Here we describe how to customize YOHO to apply the group processing pipeline according to different levels of requirements, including direct generalization, retraining on other datasets and backbone replacement.
+### You have a point cloud file(.ply/.pcd), and you want to extract FCGF or YOHO features.
+  I provide two quite simple scripts in ```simple_yoho``` but I have not fully checked.
+  - ```fcgf_feat.py``` can be used for FCGF feature extraction, the output is a set of down sampled points and their FCGF features.
+  - ```yoho_extract.py``` can be used for YOHO feature extraction, the output is 5000 randomly sampled keypoints and their corresponding yoho features.
+  - **NOTE:** a key parameter you should carefully set for both algos is ```voxel_size```:
+    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scene, just set it to 0.025 is always ok.)
+    - voxel_size should be set to the same for the source and target pcs.
+
 ### Direct generalization on other testsets.
   Here we utilize the pre-trained model(FCGF backbone) in the repo directly on a individual testset, namely, ```DS```:
   - Prepare ```DS``` following the data structure as:
@@ -15,6 +23,9 @@ Here we describe how to customize YOHO to apply the group processing pipeline ac
                 └── Keypoints/
                   └── cloud_bin_0Keypoints.txt    #indexes in cloud_bin_0.ply of keypoints
     ```
+    **Note:**
+    - The cloud_bin_0Keypoints.txt contains the point indexes of 5000 randomly sampled points of cloud_bin_0.ply.
+    - gt.log and gt.info files are used for evaluation and require given ground truth tranformations, if you only have a set of point clouds, just use the fake ones in ```./others```.
   - Logging ```DS``` into ```utils/dataset-->get_dataset_name()``` by adding codes following:
     ```
         if dataset_name=='DS':
