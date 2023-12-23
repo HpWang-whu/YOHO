@@ -1,5 +1,6 @@
 ## Customize YOHO according to your needs
 Here we describe how to customize YOHO to apply the group processing pipeline according to different levels of requirements, including direct generalization, retraining on other datasets and backbone replacement.
+
 ### You have a point cloud file(.ply/.pcd), and you want to extract FCGF or YOHO features.
   I provide two quite simple scripts in ```simple_yoho``` but I have not fully checked.
   - ```fcgf_feat.py``` can be used for FCGF feature extraction, the output is a set of down sampled points and their FCGF features.

@@ -30,7 +30,7 @@ In this paper, we propose a novel local descriptor-based framework, called You O
 
 
 ## 🆕 News
-- 2023-12-23: Quite simple scripts for YOHO/FCGF feature extraction on a give point cloud. Check how to use it at [here](others/README.md).
+- 2023-12-23: Quite simple scripts for YOHO/FCGF feature extraction on a give point cloud. Check how to use it at [here](others/Readme.md).
 - 2023-02-28: A multiview registration mehtod [SGHR](https://github.com/WHU-USI3DV/SGHR) utilizing YOHO is accepted by CVPR 2023! 🎉🎉
 - 2023-02-05: YOHO has been extended to IEEE TPAMI 2023, a.k.a, [RoReg](https://github.com/HpWang-whu/RoReg)! 🎉🎉
 - 2022-06-30: YOHO is accepted by ACM MM 2022! 🎉🎉
@@ -210,7 +210,7 @@ The generalization results on the outdoor WHU-TLS dataset can be got as follows:
 
 ## 📏 Customize YOHO according to your own needs
 
-To test YOHO on other datasets, or to implement YOHO using other backbones according to your own needs, please refer to [Here](others/README.md).
+To test YOHO on other datasets, or to implement YOHO using other backbones according to your own needs, please refer to [Here](others/Readme.md).
 
 
 
