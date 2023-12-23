@@ -200,12 +200,12 @@ The generalization results on the outdoor WHU-TLS dataset can be got as follows:
   ```
   All the results will be placed to ```./data/YOHO_FCGF```.
 
-### You have a point cloud file(.ply/.pcd), and you want to extract FCGF or YOHO features.
+## 📏 You have a point cloud file(.ply/.pcd), and you want to extract FCGF or YOHO features.
   I provide two quite simple scripts in ```simple_yoho``` but I have not fully checked.
   - ```fcgf_feat.py``` can be used for FCGF feature extraction, the output is a set of down sampled points and their FCGF features, but you need to download the [orignal checkpoints](https://github.com/chrischoy/FCGF) and set the corresponding file path to ```pth``` in  ```fcgf_feat.py```.
   - ```yoho_extract.py``` can be used for YOHO feature extraction, the output is 5000 randomly sampled keypoints and their corresponding yoho features.
   - **NOTE:** a key parameter you should carefully set for both algos is ```voxel_size```:
-    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scene, just set it to 0.025 is always ok.)
+    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scenes, just setting it to 0.025 is always ok.)
     - voxel_size should be set to the same for the source and target pcs.
 
 ## 📏 Customize YOHO according to your own needs

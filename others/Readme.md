@@ -5,7 +5,7 @@ Here we describe how to customize YOHO to apply the group processing pipeline ac
   - ```fcgf_feat.py``` can be used for FCGF feature extraction, the output is a set of down sampled points and their FCGF features.
   - ```yoho_extract.py``` can be used for YOHO feature extraction, the output is 5000 randomly sampled keypoints and their corresponding yoho features.
   - **NOTE:** a key parameter you should carefully set for both algos is ```voxel_size```:
-    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scene, just set it to 0.025 is always ok.)
+    - voxel_size = 0.025*(a rough scale of your pcs)/3m, the explanation is in the following context. (For indoor scene, just setting it to 0.025 is always ok.)
     - voxel_size should be set to the same for the source and target pcs.
 
 ### Direct generalization on other testsets.
