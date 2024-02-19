@@ -77,18 +77,9 @@ Specifically, The code has been tested with:
   pip install git+https://github.com/NVIDIA/MinkowskiEngine.git
   ```
 
-
 - Fourth, install other packages, here we use 0.8.0.0 version [Open3d](http://www.open3d.org/) for Ubuntu 16.04:
   ```
   pip install -r requirements.txt
-  ```
-
-- Finally, compile the [CUDA based KNN searcher](https://github.com/vincentfpgarcia/kNN-CUDA):
-  ```
-  cd knn_search/
-  export CUDA_HOME=/usr/local/cuda-11.1 #We have checked cuda-11.1.
-  python setup.py build_ext --inplace
-  cd ..
   ```
 
 ## 💾 Dataset & Pretrained model

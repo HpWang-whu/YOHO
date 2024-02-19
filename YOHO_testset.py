@@ -12,7 +12,7 @@ from tqdm import tqdm
 from utils.dataset import get_dataset_name
 from utils.utils import make_non_exists_dir
 from fcgf_model import load_model
-from knn_search import knn_module
+from utils.knn_search import knn_module
 import MinkowskiEngine as ME
 from utils.utils_o3d import make_open3d_point_cloud
 

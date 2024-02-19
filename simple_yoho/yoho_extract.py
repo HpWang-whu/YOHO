@@ -4,82 +4,13 @@ import numpy as np
 from copy import deepcopy
 from utils.network import PartI_test
 from utils.utils import transform_points
-from simple_fcgf_yoho.fcgf_feat import fcgf_extractor
+from utils.knn_search import modified_knn_matcher
+from simple_yoho.fcgf_feat import fcgf_extractor
 
 # fake config
 parser = argparse.ArgumentParser()
 parser.add_argument('--SO3_related_files',default='./group_related',type=str)
 args = parser.parse_args()
-
-class nn_match():
-    def __init__(self) -> None:
-        pass
-
-    def pdist(self, A, B, dist_type='L2'):
-          if dist_type == 'L2':
-              D2 = torch.sum((A.unsqueeze(1) - B.unsqueeze(0)).pow(2), 2)
-              return torch.sqrt(D2 + 1e-7)
-          elif dist_type == 'SquareL2':
-              return torch.sum((A.unsqueeze(1) - B.unsqueeze(0)).pow(2), 2)
-          else:
-              raise NotImplementedError('Not implemented')
-
-    def find_nn_gpu(self, F0, F1, nn_max_n=-1, return_distance=False, dist_type='SquareL2'):
-        # Too much memory if F0 or F1 large. Divide the F0
-        if nn_max_n > 1:
-            N = len(F0)
-            C = int(np.ceil(N / nn_max_n))
-            stride = nn_max_n
-            dists, inds = [], []
-            for i in range(C):
-                dist = self.pdist(F0[i * stride:(i + 1) * stride], F1, dist_type=dist_type)
-                min_dist, ind = dist.min(dim=1)
-                dists.append(min_dist.detach().unsqueeze(1).cpu())
-                inds.append(ind.cpu())
-
-            if C * stride < N:
-                dist = self.pdist(F0[C * stride:], F1, dist_type=dist_type)
-                min_dist, ind = dist.min(dim=1)
-                dists.append(min_dist.detach().unsqueeze(1).cpu())
-                inds.append(ind.cpu())
-
-            dists = torch.cat(dists)
-            inds = torch.cat(inds)
-            assert len(inds) == N
-        else:
-            dist = self.pdist(F0, F1, dist_type=dist_type)
-            min_dist, inds = dist.min(dim=1)
-            dists = min_dist.detach().unsqueeze(1).cpu()
-            inds = inds.cpu()
-        if return_distance:
-            return inds, dists
-        else:
-            return inds
-        
-    def find_corr(self, F0, F1, subsample_size=-1, mutual = True, nn_max_n = 500):
-        #init
-        inds0, inds1 = np.arange(F0.shape[0]), np.arange(F1.shape[0])
-        if subsample_size > 0:
-            N0 = min(len(F0), subsample_size)
-            N1 = min(len(F1), subsample_size)
-            inds0 = np.random.choice(len(F0), N0, replace=False)
-            inds1 = np.random.choice(len(F1), N1, replace=False)
-            F0 = F0[inds0]
-            F1 = F1[inds1]
-        # Compute the nn
-        nn_inds_in1 = self.find_nn_gpu(F0, F1, nn_max_n=nn_max_n)
-        if not mutual:
-          inds1 = inds1[nn_inds_in1]
-        else:
-          matches = []
-          nn_inds_in0 = self.find_nn_gpu(F1, F0, nn_max_n=nn_max_n)
-          for i in range(len(nn_inds_in1)):
-              if i == nn_inds_in0[nn_inds_in1[i]]:
-                matches.append((i, nn_inds_in1[i]))
-          matches = np.array(matches).astype(np.int32)
-          inds0 = inds0[matches[:,0]]
-          inds1 = inds1[matches[:,1]]
-        return inds0, inds1
     
 class yoho_extractor():
     def __init__(self,
@@ -91,7 +22,7 @@ class yoho_extractor():
         self.yoho_ckpt = yoho_ckpt
         self.network = PartI_test(args)
         self._load_model()
-        self.nn_searcher = nn_match()
+        self.nn_searcher = modified_knn_matcher()
         self.bs = 500
 
     def _load_model(self):
@@ -156,7 +87,7 @@ if __name__ == '__main__':
     skpts, sfeat_inv, sfeat_eqv = extractor.run(spc,voxel_size=0.025)
     tkpts, tfeat_inv, tfeat_eqv = extractor.run(tpc,voxel_size=0.025)
     # match
-    matcher = nn_match()
+    matcher = modified_knn_matcher()
     sid,tid = matcher.find_corr(sfeat_inv.cuda(),tfeat_inv.cuda(),mutual=True)
     mskpts,mtkpts = skpts[sid],tkpts[tid]
     mtkpts = transform_points(mtkpts,gt)

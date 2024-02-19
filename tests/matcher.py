@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import tqdm
 from utils.utils import make_non_exists_dir
-from knn_search import knn_module
+from utils.knn_search import knn_module
 
 class matcher_dual():
     def __init__(self,cfg):

@@ -5,8 +5,6 @@ Feature extractor for feature extraction:
 (3)extractor_PartII: Residual rotation.
 """
 
-
-
 import os,sys
 sys.path.append('..')
 import torch
